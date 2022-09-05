@@ -15,7 +15,11 @@ const app = express();
 //     }
 // });
 
-app.use(express.static(path.join(__dirname, '../client/dist')));
+// app.use(express.static(path.join(__dirname, '../client/dist')));
+
+app.get('/', (req, res) => {
+    res.json({message: "Hello from server"});
+})
 
 app.get('/api/anime', anime(), (req, res) => {
     res.json({data: res.data})
@@ -25,8 +29,8 @@ app.get('/api/bears', bears(), (req, res) => {
     res.json({ data: res.data });
 });
 
-app.get("*", (req, res) => {
-    res.sendFile(path.join(__dirname, "../client/dist/index.html"));
-})
+// app.get("*", (req, res) => {
+//     res.sendFile(path.join(__dirname, "../client/dist/index.html"));
+// })
 
 app.listen(5000);
