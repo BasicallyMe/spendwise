@@ -1,0 +1,30 @@
+{
+  "name": "whats-that-anime",
+  "version": "1.0.0",
+  "description": "",
+  "scripts": {
+    "start": "",
+    "dev": "concurrently \"npm run frontend\" \"npm run server\"",
+    "build": "cd client && npm run build",
+    "serve": "cd server && npm run serve",
+    "server": "cd server && npm run dev",
+    "frontend": "cd client && npm run dev"
+  },
+  "engines": {
+    "node": "14.19.0"
+  },
+  "keywords": [
+    "example",
+    "heroku"
+  ],
+  "author": "Abajit Dey",
+  "license": "ISC",
+  "devDependencies": {
+    "concurrently": "^7.3.0",
+    "dotenv": "^16.0.2"
+  },
+  "dependencies": {
+    "cors": "^2.8.5",
+    "http-proxy-middleware": "^2.0.6"
+  }
+}
