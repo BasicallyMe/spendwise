@@ -2,6 +2,7 @@ const express = require('express');
 const bears = require('./routes/bears');
 const anime = require('./routes/anime');
 const path = require('path');
+const PORT = process.env.PORT || 5000
 const app = express();
 
 
@@ -33,4 +34,4 @@ app.get('/api/bears', bears(), (req, res) => {
 //     res.sendFile(path.join(__dirname, "../client/dist/index.html"));
 // })
 
-app.listen(5000);
+app.listen(PORT);
