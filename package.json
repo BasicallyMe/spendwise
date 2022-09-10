@@ -4,7 +4,8 @@
   "description": "",
   "scripts": {
     "start": "npm run serve",
-    "dev": "concurrently \"npm run frontend\" \"npm run server\""
+    "dev": "concurrently \"npm run frontend\" \"npm run server\"",
+    "serve": "cd server && npm install && npm run serve"
   },
   "engines": {
     "node": "14.19.0"
