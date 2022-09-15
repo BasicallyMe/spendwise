@@ -11,7 +11,7 @@
     "client": "cd client && npm run dev"
   },
   "engines": {
-    "node": "14.19.0"
+    "node": "16.16.0"
   },
   "keywords": [
     "example",
@@ -21,12 +21,15 @@
   "license": "ISC",
   "devDependencies": {
     "concurrently": "^7.3.0",
-    "dotenv": "^16.0.2",
     "cors": "^2.8.5",
+    "dotenv": "^16.0.2",
     "express": "^4.18.1"
   },
   "dependencies": {
+    "axios": "^0.27.2",
     "cors": "^2.8.5",
-    "http-proxy-middleware": "^2.0.6"
+    "firebase": "^9.9.4",
+    "http-proxy-middleware": "^2.0.6",
+    "jsonwebtoken": "^8.5.1"
   }
 }
