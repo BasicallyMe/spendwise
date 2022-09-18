@@ -13,9 +13,13 @@
   "dependencies": {
     "parcel": "^2.7.0",
     "react": "^18.2.0",
-    "react-dom": "^18.2.0"
+    "react-dom": "^18.2.0",
+    "react-event-observer": "^0.5.11",
+    "react-hook-form": "^7.35.0",
+    "react-router-dom": "^6.4.0"
   },
   "devDependencies": {
+    "@parcel/transformer-sass": "^2.7.0",
     "process": "^0.11.10"
   }
 }

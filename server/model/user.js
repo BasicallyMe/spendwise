@@ -1,36 +1,51 @@
-require('dotenv').config();
-const { getAuth, createUserWithEmailAndPassword } = require('firebase/auth');
-const app = require('../config/database');
-const axios = require('axios');
-
-const auth = getAuth(app);
+require("dotenv").config();
+const {
+  getAuth,
+  createUserWithEmailAndPassword,
+  signInWithEmailAndPassword,
+} = require("firebase/auth");
+const { auth } = require("../config/firebase");
 
 async function registerUser(option) {
-    const { displayName, email, password } = option;
-    try {
-        const response = await createUserWithEmailAndPassword(auth, email, password, displayName);
-        let user = await response?.user;
-        return {
-            email: user.email,
-            displayName: displayName,
-            createdOn: user.metadata.creationTime,
-            uid: user.uid
-        }
-    } catch(err) {
-        console.log(err.code);
-        return {
-            error: err.code,
-        };
-    }
+  const { email, password, firstName, lastName } = option;
+  try {
+    const response = await createUserWithEmailAndPassword(
+      auth,
+      email,
+      password,
+    );
+    const user = await response?.user;
+    return {
+      email: user.email,
+      firstName: firstName,
+      lastName: lastName,
+      createdOn: user.metadata.creationTime,
+      uid: user.uid,
+    };
+  } catch (err) {
+    return {
+      error: err.code,
+    };
+  }
 }
 
-async function findUser(option) {
-    const { email, password } = option;
-    console.log(email, password);
-    return true;
+async function signInUser(option) {
+  const { email, password } = option;
+  try {
+    const response = await signInWithEmailAndPassword(auth, email, password);
+    const user = await response?.user;
+    return {
+      email: user.email,
+      uid: user.uid,
+    };
+  } catch (err) {
+    return {
+      error: err.code,
+    };
+  }
 }
 
 module.exports = {
-    registerUser: registerUser,
-    findUser: findUser,
-}
+  registerUser: registerUser,
+  signInUser: signInUser,
+};
