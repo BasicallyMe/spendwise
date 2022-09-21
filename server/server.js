@@ -169,7 +169,7 @@ app.post("/server/status", (req, res) => {
 
 // If nothing mathches the URLs from above, send the index.html file
 app.get("*", (req, res) => {
-  res.sendFile(path.join(__dirname + "/../client/dist/index.html"));
+  res.sendFile(path.join(__dirname + "../client/dist/index.html"));
 });
 
 app.listen(PORT);
