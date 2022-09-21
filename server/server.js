@@ -1,11 +1,18 @@
 const express = require("express");
+require("dotenv").config();
+
+// importing global middlewares
 const cookieParser = require("cookie-parser");
+const path = require('path');
 const cors = require("cors");
 const jwt = require("jsonwebtoken");
-require("dotenv").config();
+
+// importing custom middlewares
 const auth = require("./middleware/auth");
 const User = require("./model/user");
 const Database = require("./model/database");
+
+// PORT used by Heroku app
 const PORT = process.env.PORT || 5000;
 const app = express();
 
@@ -21,6 +28,9 @@ app.use(
     credentials: true,
   })
 );
+
+// serving static files from the client directory
+app.use(express.static(path.join(__dirname, "../client/dist")));
 
 app.post("/user/register", async (req, res) => {
   try {
@@ -155,6 +165,11 @@ app.post("/server/status", (req, res) => {
   const authHeader = req.headers["authorization"];
   const token = authHeader && authHeader.split(" ")[1];
   res.json({ token: token });
+});
+
+// If nothing mathches the URLs from above, send the index.html file
+app.get("*", (req, res) => {
+  res.sendFile(path.join(__dirname + "/../client/dist/index.html"));
 });
 
 app.listen(PORT);
