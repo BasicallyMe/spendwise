@@ -11,7 +11,7 @@
     "client": "cd client && npm run dev"
   },
   "engines": {
-    "node": "16.16.0"
+    "node": "16.15.0"
   },
   "keywords": [
     "example",
@@ -31,6 +31,7 @@
     "cors": "^2.8.5",
     "firebase": "^9.10.0",
     "http-proxy-middleware": "^2.0.6",
-    "jsonwebtoken": "^8.5.1"
+    "jsonwebtoken": "^8.5.1",
+    "parcel": "^2.7.0"
   }
 }
