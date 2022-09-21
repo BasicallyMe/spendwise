@@ -1,6 +1,8 @@
-import React from "react";
-import { Navigate } from "react-router-dom";
+import React, { useState } from "react";
+import { Navigate, Link, useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
+import { checkLoggedIn } from "../../core/container";
+import './styles.scss';
 
 const SignIn = () => {
   const {
@@ -10,15 +12,42 @@ const SignIn = () => {
     formState: { errors },
   } = useForm();
 
-  function onSubmit(data) {
-    const { email, password } = data;
-    console.log(data);
+  const [message, setMessage] = useState('');
+  
+  const navigate = useNavigate();
+
+  async function onSubmit(data) {
+    setMessage('');
+    let status = null;
+    try {
+      const res = await fetch("http://localhost:5000/user/signin", {
+        method: 'POST',
+        cors: 'cors',
+        credentials: 'include',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(data),
+      })
+      status = res.status;
+      const response = await res.json();
+      if (res.status === 401) {
+        setMessage(response.message);  
+      }
+    } catch(err) {
+      console.log(err);
+    }
+    if (status === 202) {
+      navigate("/", { replace: true });
+    }
   }
 
   return (
-    <div>
-      <h1>Sign in to your account</h1>
+    <div className="signup signin">
+      {/* {checkLoggedIn() && <Navigate to="/" replace={true} />} */}
+      <h1>Sign in</h1>
       <form onSubmit={handleSubmit(onSubmit)}>
+        {!!message && <label className="error-message">{message}</label>}
         <input
           placeholder="Email address"
           type="email"
@@ -32,6 +61,9 @@ const SignIn = () => {
         />
         <input type="submit" />
       </form>
+      <p className="redirect-link">
+        Don't have an account? <Link to="/register">Sign up</Link> -{">"}
+      </p>
     </div>
   );
 };

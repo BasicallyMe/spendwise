@@ -1,6 +1,5 @@
 require("dotenv").config();
 const {
-  getAuth,
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
 } = require("firebase/auth");

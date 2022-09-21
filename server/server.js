@@ -1,15 +1,23 @@
 const express = require("express");
 const cookieParser = require("cookie-parser");
+const cors = require("cors");
 const jwt = require("jsonwebtoken");
 require("dotenv").config();
 const auth = require("./middleware/auth");
 const User = require("./model/user");
+const Database = require("./model/database");
 const PORT = process.env.PORT || 5000;
 const app = express();
 
 //body parser
 app.use(express.json());
 app.use(cookieParser());
+app.use(
+  cors({
+    origin: "http://localhost:1234",
+    credentials: true,
+  })
+);
 
 app.post("/user/register", async (req, res) => {
   try {
@@ -22,16 +30,32 @@ app.post("/user/register", async (req, res) => {
       password: password,
     });
 
-    // const databaseCreated = await Database.createUserDatabase(user);
-    // console.log(databaseCreated);
-
     if (user.error) {
+      switch (user.error) {
+        case "auth/email-already-in-use":
+          return res
+            .status(409)
+            .json({
+              message: "Account already exists. Please login to continue",
+              error_message: user.error,
+            })
+            .end();
+        default:
+          return res
+            .status(409)
+            .json({
+              message: "Couldn't create user account. Please try again",
+              error_message: user.error,
+            })
+            .end();
+      }
+    }
+    //creating user database
+    const databaseCreated = await Database.createUserDatabase(user);
+    if (!databaseCreated) {
       return res
-        .status(409)
-        .json({
-          message: "User already exist. Please login to continue",
-          error_message: user.error,
-        })
+        .status(500)
+        .json({ message: "Couldn't create database" })
         .end();
     }
 
@@ -49,6 +73,7 @@ app.post("/user/register", async (req, res) => {
       httpOnly: true,
       maxAge: 2 * 60 * 60 * 1000,
     });
+    res.cookie("registered", user.email);
     res.cookie("uid", user.uid);
 
     return res.status(201).json(user).end();
@@ -69,7 +94,7 @@ app.post("/user/signin", async (req, res) => {
       return res
         .status(401)
         .json({
-          message: "User doesn't exist. Please register to create an account",
+          message: "Account doesn't exist. Please create an account",
           error_message: user.error,
         })
         .end();
@@ -88,10 +113,11 @@ app.post("/user/signin", async (req, res) => {
       httpOnly: true,
       maxAge: 2 * 60 * 60 * 1000,
     });
+    res.cookie("registered", user.email);
     res.cookie("uid", user.uid);
 
     // sending user data to the client
-    res.status(201).json(user).end();
+    res.status(202).json(user).end();
   } catch (err) {
     res
       .status(500)
@@ -100,8 +126,18 @@ app.post("/user/signin", async (req, res) => {
   }
 });
 
-app.get("/user/get/data", auth, (req, res) => {
-  res.status(200).json({ message: "Hello from server" }).end();
+app.get("/user/data", auth, (req, res) => {
+  res.status(200).json({ message: "Hello from server", data: req.user }).end();
+});
+
+app.delete("/user/signout", (req, res) => {
+  try {
+    res.clearCookie("token");
+    res.clearCookie("uid");
+    res.status(200).json({ message: "User signed out successfully" }).end();
+  } catch(err) {
+    res.status(404).json({message: "Couldn't sign out"}).end();
+  }
 });
 
 app.get("/server/status", (req, res) => {

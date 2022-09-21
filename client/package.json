@@ -16,7 +16,8 @@
     "react-dom": "^18.2.0",
     "react-event-observer": "^0.5.11",
     "react-hook-form": "^7.35.0",
-    "react-router-dom": "^6.4.0"
+    "react-router-dom": "^6.4.0",
+    "zustand": "^4.1.1"
   },
   "devDependencies": {
     "@parcel/transformer-sass": "^2.7.0",
