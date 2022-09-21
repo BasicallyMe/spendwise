@@ -4,7 +4,7 @@
   "description": "",
   "scripts": {
     "start": "npm run serve",
-    "build": "cd client && npm install --production=false && npm run build",
+    "build": "cd client && npm install && npm run build",
     "serve": "cd server && npm install && npm run serve",
     "dev": "concurrently \"npm run client\" \"npm run server\"",
     "server": "cd server && npm run dev",
