@@ -14,7 +14,10 @@ app.use(express.json());
 app.use(cookieParser());
 app.use(
   cors({
-    origin: "http://localhost:1234",
+    origin: [
+      "http://localhost:1234",
+      "https://thexpensetracker.herokuapp.com/",
+    ],
     credentials: true,
   })
 );
