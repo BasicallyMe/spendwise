@@ -1,0 +1,2 @@
+# **The Expense Tracker**
+"Don't just manage your expenses, understand it, and improve". With **The Expense Tracker**, keep track of all your expenses, take a look at your spendings using our graphs and visuals.
