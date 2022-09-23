@@ -11,7 +11,7 @@
     "client": "cd client && npm run dev"
   },
   "engines": {
-    "node": "16.15.0"
+    "node": ">=16.15.0"
   },
   "keywords": [
     "example",

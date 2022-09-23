@@ -7,9 +7,6 @@
     "serve": "node server.js",
     "dev": "nodemon server.js"
   },
-  "engines": {
-    "node": "14.19.0"
-  },
   "keywords": [
     "example",
     "heroku"
