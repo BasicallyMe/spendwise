@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Navigate, Link, useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { checkLoggedIn } from "../../core/container";
-import './styles.scss';
+import './styles.css';
 
 const SignIn = () => {
   const {

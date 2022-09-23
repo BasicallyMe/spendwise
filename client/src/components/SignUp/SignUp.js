@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Navigate, useNavigate, Link } from "react-router-dom";
 import { checkRegistered } from "../../core/container";
 import { useForm } from "react-hook-form";
-import "./styles.scss";
+import "./styles.css";
 
 const SignUp = () => {
   const {

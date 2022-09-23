@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import "./Navigation.scss";
+import "./Navigation.css";
 
 export default function Navigation() {
 
