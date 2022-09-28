@@ -28,6 +28,7 @@ const SignUp = () => {
         body: JSON.stringify(data)
       });
       const response = await res.json();
+      console.log(response);
       if (res.status === 201) {
         setMessage("Account created successfully");
         setTimeout(() => {

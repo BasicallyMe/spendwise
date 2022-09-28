@@ -3,14 +3,11 @@ require("dotenv").config();
 
 // importing global middlewares
 const cookieParser = require("cookie-parser");
-const path = require('path');
+const path = require("path");
 const cors = require("cors");
 const jwt = require("jsonwebtoken");
 
 // importing custom middlewares
-const auth = require("./middleware/auth");
-const User = require("./model/user");
-const Database = require("./model/database");
 
 // PORT used by Heroku app
 const PORT = process.env.PORT || 5000;
@@ -32,142 +29,49 @@ app.use(
 // serving static files from the client directory
 app.use(express.static(path.join(__dirname, "../client/dist")));
 
-app.post("/user/register", async (req, res) => {
+app.post("/user/register", (req, res) => {
   try {
-    const { email, password, firstName, lastName } = req.body;
-
-    const user = await User.registerUser({
-      firstName: firstName,
-      lastName: lastName,
-      email: email.toLowerCase(),
-      password: password,
+    const { firstName, lastName, email, password } = req.body;
+    const user = {
+      firstName,
+      lastName,
+      email,
+      password,
+    };
+    res.cookie("registered", email, {
+      maxAge: 20000,
     });
-
-    if (user.error) {
-      switch (user.error) {
-        case "auth/email-already-in-use":
-          return res
-            .status(409)
-            .json({
-              message: "Account already exists. Please login to continue",
-              error_message: user.error,
-            })
-            .end();
-        default:
-          return res
-            .status(409)
-            .json({
-              message: "Couldn't create user account. Please try again",
-              error_message: user.error,
-            })
-            .end();
-      }
-    }
-    //creating user database
-    const databaseCreated = await Database.createUserDatabase(user);
-    if (!databaseCreated) {
-      return res
-        .status(500)
-        .json({ message: "Couldn't create database" })
-        .end();
-    }
-
-    // creating a JWT signed token
-    const token = jwt.sign(
-      { user_id: user.uid, email },
-      process.env.TOKEN_KEY,
-      {
-        expiresIn: "2h",
-      }
-    );
-
-    // adding token to cookies
-    res.cookie("token", token, {
-      httpOnly: true,
-      maxAge: 2 * 60 * 60 * 1000,
+    res.cookie("uid", password, {
+      maxAge: 20000,
     });
-    res.cookie("registered", user.email);
-    res.cookie("uid", user.uid);
-
-    return res.status(201).json(user).end();
-  } catch (error) {
-    res.status(409).json({ message: "Couldn't sign in user" }).end();
+    res.status(201).json(user).end();
+  } catch (err) {
+    res.status(404).json({ message: "Couldn't create account" }).end();
   }
 });
 
-app.post("/user/signin", async (req, res) => {
+app.post("/user/signin", (req, res) => {
   try {
     const { email, password } = req.body;
-
-    // fetch user data if user is registered in the server
-    const user = await User.signInUser({ email, password });
-
-    // return 401 if user doesn't exist in the database
-    if (user.error) {
-      return res
-        .status(401)
-        .json({
-          message: "Account doesn't exist. Please create an account",
-          error_message: user.error,
-        })
-        .end();
-    }
-
-    const token = jwt.sign(
-      { user_id: user.uid, email },
-      process.env.TOKEN_KEY,
-      {
-        expiresIn: "2h",
-      }
-    );
-
-    // adding generated token to the cookie
-    res.cookie("token", token, {
-      httpOnly: true,
-      maxAge: 2 * 60 * 60 * 1000,
+    const user = {email, password};
+    res.cookie('uid', password, {
+      maxAge: 20000,
     });
-    res.cookie("registered", user.email);
-    res.cookie("uid", user.uid);
-
-    // sending user data to the client
     res.status(202).json(user).end();
-  } catch (err) {
-    res
-      .status(500)
-      .json({ message: "Server couldn't complete the request" })
-      .end();
+  } catch(err) {
+    res.status(400).json({message: "Couldn't sign in to your account. Please try again"}).end();
   }
-});
-
-app.get("/user/data", auth, (req, res) => {
-  res.status(200).json({ message: "Hello from server", data: req.user }).end();
-});
+})
 
 app.delete("/user/signout", (req, res) => {
-  try {
-    res.clearCookie("token");
-    res.clearCookie("uid");
-    res.status(200).json({ message: "User signed out successfully" }).end();
-  } catch(err) {
-    res.status(404).json({message: "Couldn't sign out"}).end();
-  }
+  res.clearCookie('uid');
+  res.status(200).end();
+}) 
+
+app.get("/user/data", (req, res) => {
+  res.status(200).json({ data: "This is some private data" }).end();
 });
 
-app.get("/server/status", (req, res) => {
-  res.cookie("Cookie", "Example Cookie", {
-    httpOnly: true,
-    maxAge: 2 * 60 * 60 * 1000,
-  });
-  res.status(201).json({ message: "Server is running💕✨" });
-});
-
-app.post("/server/status", (req, res) => {
-  const authHeader = req.headers["authorization"];
-  const token = authHeader && authHeader.split(" ")[1];
-  res.json({ token: token });
-});
-
-// If nothing mathches the URLs from above, send the index.html file
 app.get("*", (req, res) => {
   res.sendFile(path.join(__dirname + "../client/dist/index.html"));
 });
