@@ -19,7 +19,7 @@ const SignUp = () => {
   async function onSubmit(data) {
     setMessage('');
     try {
-      const res = await fetch("http://localhost:5000/user/register", {
+      const res = await fetch("/user/register", {
         method: 'POST',
         credentials: 'include',
         headers: {
