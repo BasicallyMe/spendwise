@@ -9,6 +9,7 @@ const jwt = require("jsonwebtoken");
 
 // importing custom middlewares
 const User = require('./model/user');
+const Database = require('./model/database');
 
 // PORT used by Heroku app
 const PORT = process.env.PORT || 5000;
@@ -39,6 +40,9 @@ app.post("/user/register", async (req, res) => {
     if (user?.error) {
       return res.status(401).json(user).end();
     }
+    
+    const databaseCreated = await Database.createUserDatabase(user);
+    
     res.cookie("registered", email, {
       maxAge: 20000,
     });

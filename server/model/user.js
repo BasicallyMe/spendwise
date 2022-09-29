@@ -4,7 +4,6 @@ const { createUserWithEmailAndPassword } = require("firebase/auth");
 async function createUser({ email, password, firstName, lastName }) {
   try {
     const res = await createUserWithEmailAndPassword(auth, email, password);
-    console.log(res.user.toJSON());
     let user = res.user.toJSON();
     return {
       uid: user.uid,
