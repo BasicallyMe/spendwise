@@ -29,11 +29,12 @@ const SignIn = () => {
         },
         body: JSON.stringify(data),
       })
-      status = res.status;
       const response = await res.json();
-      if (res.status === 401) {
-        setMessage(response.message);  
-      }
+      console.log("response", response);
+      // status = res.status;
+      // if (res.status === 401) {
+      //   setMessage(response.message);  
+      // }
     } catch(err) {
       console.log(err);
     }
