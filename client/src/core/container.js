@@ -7,3 +7,5 @@ export function checkRegistered() {
     const cookie = document.cookie;
     return cookie.includes('registered');
 }
+
+export const devUrl = ""

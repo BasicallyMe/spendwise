@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Navigate, useNavigate, Link } from "react-router-dom";
-import { checkRegistered } from "../../core/container";
+import { checkRegistered, devUrl } from "../../core/container";
 import { useForm } from "react-hook-form";
 import "./styles.css";
 
@@ -19,7 +19,7 @@ const SignUp = () => {
   async function onSubmit(data) {
     setMessage('');
     try {
-      const res = await fetch("/user/register", {
+      const res = await fetch(`${devUrl}/user/register`, {
         method: 'POST',
         credentials: 'include',
         headers: {

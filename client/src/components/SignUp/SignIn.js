@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Navigate, Link, useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
-import { checkLoggedIn } from "../../core/container";
+import { checkLoggedIn, devUrl } from "../../core/container";
 import './styles.css';
 
 const SignIn = () => {
@@ -20,7 +20,7 @@ const SignIn = () => {
     setMessage('');
     let status = null;
     try {
-      const res = await fetch("http://localhost:5000/user/signin", {
+      const res = await fetch(`${devUrl}/user/signin`, {
         method: 'POST',
         cors: 'cors',
         credentials: 'include',
