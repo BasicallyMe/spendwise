@@ -8,6 +8,7 @@ const cors = require("cors");
 const jwt = require("jsonwebtoken");
 
 // importing custom middlewares
+const User = require('./model/user');
 
 // PORT used by Heroku app
 const PORT = process.env.PORT || 5000;
@@ -29,15 +30,15 @@ app.use(
 // serving static files from the client directory
 app.use(express.static(path.join(__dirname, "../client/dist")));
 
-app.post("/user/register", (req, res) => {
+app.post("/user/register", async (req, res) => {
   try {
     const { firstName, lastName, email, password } = req.body;
-    const user = {
-      firstName,
-      lastName,
-      email,
-      password,
-    };
+
+    const user = await User.createUser({email, password, firstName, lastName});
+
+    if (user?.error) {
+      return res.status(401).json(user).end();
+    }
     res.cookie("registered", email, {
       maxAge: 20000,
     });
