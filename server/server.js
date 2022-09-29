@@ -40,13 +40,13 @@ app.post("/user/register", async (req, res) => {
     if (user?.error) {
       return res.status(401).json(user).end();
     }
-    
+
     const databaseCreated = await Database.createUserDatabase(user);
     
     res.cookie("registered", email, {
       maxAge: 20000,
     });
-    res.cookie("uid", password, {
+    res.cookie("uid", user.uid, {
       maxAge: 20000,
     });
     res.status(201).json(user).end();
