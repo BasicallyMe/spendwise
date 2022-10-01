@@ -1,8 +1,7 @@
 import React, { useState } from "react";
-import { Navigate, Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
-import { checkLoggedIn, devUrl } from "../../core/container";
-import './styles.css';
+import './styles.scss';
 
 const SignIn = () => {
   const {
@@ -20,7 +19,7 @@ const SignIn = () => {
     setMessage('');
     let status = null;
     try {
-      const res = await fetch(`${devUrl}/user/signin`, {
+      const res = await fetch("/user/signin", {
         method: 'POST',
         cors: 'cors',
         credentials: 'include',
@@ -30,11 +29,11 @@ const SignIn = () => {
         body: JSON.stringify(data),
       })
       const response = await res.json();
+      if (status === 401) {
+        setMessage(response.message);  
+      }
       console.log("response", response);
-      // status = res.status;
-      // if (res.status === 401) {
-      //   setMessage(response.message);  
-      // }
+      status = await res.status;
     } catch(err) {
       console.log(err);
     }
@@ -45,7 +44,6 @@ const SignIn = () => {
 
   return (
     <div className="signup signin">
-      {/* {checkLoggedIn() && <Navigate to="/" replace={true} />} */}
       <h1>Sign in</h1>
       <form onSubmit={handleSubmit(onSubmit)}>
         {!!message && <label className="error-message">{message}</label>}

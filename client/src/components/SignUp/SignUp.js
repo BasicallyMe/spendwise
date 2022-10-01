@@ -1,8 +1,7 @@
 import React, { useState } from "react";
-import { Navigate, useNavigate, Link } from "react-router-dom";
-import { checkRegistered, devUrl } from "../../core/container";
+import { useNavigate, Link } from "react-router-dom";
 import { useForm } from "react-hook-form";
-import "./styles.css";
+import "./styles.scss";
 
 const SignUp = () => {
   const {
@@ -18,8 +17,9 @@ const SignUp = () => {
 
   async function onSubmit(data) {
     setMessage('');
+    let status = null;
     try {
-      const res = await fetch(`${devUrl}/user/register`, {
+      const res = await fetch("/user/register", {
         method: 'POST',
         credentials: 'include',
         headers: {
@@ -27,23 +27,25 @@ const SignUp = () => {
         },
         body: JSON.stringify(data)
       });
+      status = await res.status;
       const response = await res.json();
-      console.log(response);
-      if (res.status === 201) {
-        setMessage("Account created successfully");
-        setTimeout(() => {
-          navigate('/');
-        }, 1000);
+      if (res.status === 409) {
+        setMessage(response.message);
       }
-      setMessage(response.message);
+      console.log(response);
     } catch(err) {
       console.log(err);
+    }
+    if (status === 201) {
+      setMessage("Your account was created succesfully");
+      setTimeout(() => {
+        navigate('/');
+      }, 3000);
     }
   };
 
   return (
     <div className="signup signin">
-      {/* {checkRegistered() && (<Navigate to="/" replace={true} />)} */}
       <h1>Create your account</h1>
       <form onSubmit={handleSubmit(onSubmit)}>
         {!!message && <label className="error-message">{message}</label>}

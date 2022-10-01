@@ -5,7 +5,7 @@ import useBearStore from "./core/useStore";
 const App = () => {
   async function getUserData() {
     try {
-      let response = await fetch("http://localhost:5000/user/data", {
+      let response = await fetch("/user/data", {
         method: "GET",
         credentials: "include",
       });

@@ -8,4 +8,4 @@ export function checkRegistered() {
     return cookie.includes('registered');
 }
 
-export const devUrl = ""
+export const devUrl = "http:localhost:5000"

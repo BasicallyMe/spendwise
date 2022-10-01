@@ -36,14 +36,18 @@ app.post("/user/register", async (req, res) => {
     const { firstName, lastName, email, password } = req.body;
 
     const user = await User.createUser({
-      email,
-      password,
-      firstName,
-      lastName,
+      email: email.trim(),
+      password: password.trim(),
+      firstName: firstName.trim(),
+      lastName: lastName.trim(),
     });
 
     if (user?.error) {
-      return res.status(409).json(user).end();
+      res.status(409);
+      switch(user.error) {
+        case "auth/email-already-in-use": return res.json({ message: "This email is already in use"}).end();
+        default: return res.json({message: "Couldn't create your account. Please try again"}).end();
+      }
     }
 
     const databaseCreated = await Database.createUserDatabase(user);
@@ -73,13 +77,12 @@ app.post("/user/signin", async (req, res) => {
     const user = await User.signInUser({ email, password });
 
     if (user?.error) {
-      return res
-        .status(400)
-        .json({
-          error: user.error,
-          message: "Hmph! Looks like something is wrong. Please try again",
-        })
-        .end();
+      res.status(401);
+      switch(user.error) {
+        case "auth/wrong-password": return res.json({message: "You're password might be wrong. Please try again"}).end();
+        case "auth/user-not-found": return res.json({message: "Couldn't find an account with this email. Please check your email"}).end();
+        default: return res.json({message: "Couldn't sign in to your account. Please try again"}).end();
+      }
     }
 
     const token = jwt.sign({ uid: user.uid, email }, process.env.TOKEN_KEY, {
