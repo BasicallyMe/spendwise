@@ -1,7 +1,8 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
-import './styles.scss';
+import { Icon } from "../Icons";
+import "./styles.scss";
 
 const SignIn = () => {
   const {
@@ -11,30 +12,30 @@ const SignIn = () => {
     formState: { errors },
   } = useForm();
 
-  const [message, setMessage] = useState('');
-  
+  const [message, setMessage] = useState("");
+
   const navigate = useNavigate();
 
   async function onSubmit(data) {
-    setMessage('');
+    setMessage("");
     let status = null;
     try {
       const res = await fetch("/user/signin", {
-        method: 'POST',
-        cors: 'cors',
-        credentials: 'include',
+        method: "POST",
+        cors: "cors",
+        credentials: "include",
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
         },
         body: JSON.stringify(data),
-      })
+      });
       const response = await res.json();
       if (status === 401) {
-        setMessage(response.message);  
+        setMessage(response.message);
       }
       console.log("response", response);
       status = await res.status;
-    } catch(err) {
+    } catch (err) {
       console.log(err);
     }
     if (status === 202) {
@@ -43,26 +44,39 @@ const SignIn = () => {
   }
 
   return (
-    <div className="signup signin">
-      <h1>Sign in</h1>
-      <form onSubmit={handleSubmit(onSubmit)}>
-        {!!message && <label className="error-message">{message}</label>}
-        <input
-          placeholder="Email address"
-          type="email"
-          {...register("email", { required: true })}
-        />
-        <input
-          placeholder="Type your password"
-          type="password"
-          autoComplete="on"
-          {...register("password", { required: true })}
-        />
-        <input type="submit" />
-      </form>
-      <p className="redirect-link">
-        Don't have an account? <Link to="/register">Sign up</Link> -{">"}
-      </p>
+    <div className="page">
+      <div className="left">
+        <div className="logo-holder">
+          <Icon name="Logo" />
+          <h2>Expensi</h2>
+        </div>
+        <div className="title">
+          <h1>Welcome back</h1>
+          <h4>Type in your credentials and sign in</h4>
+        </div>
+        <form onSubmit={handleSubmit(onSubmit)}>
+          {!!message && <label className="error-message">{message}</label>}
+          <input
+            placeholder="Email address"
+            type="email"
+            {...register("email", { required: true })}
+          />
+          <input
+            placeholder="Type your password"
+            type="password"
+            autoComplete="on"
+            {...register("password", { required: true })}
+          />
+          <input type="submit" value="Sign in" />
+        </form>
+        <p className="redirect-link">
+          Don't have an account?{" "}
+          <Link to="/register">
+            Sign up<span> -{">"}</span>
+          </Link>
+        </p>
+      </div>
+      <div className="right"></div>
     </div>
   );
 };

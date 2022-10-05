@@ -1,28 +1,106 @@
-.signin.signup {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    gap: 15px;
-    padding: 2rem;
+@import '../../core/variables.scss';
 
-    
-}
-.redirect-link {
-    font-size: 13px;
-    
-}
-form {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 10px;
+.page { 
+    min-height: 100vh;
+    display: grid;
+    grid-template-columns: 1fr 1.2fr;
+    font-family: inherit;
 
+    .left {
+        display: flex;
+        flex-direction: column;
+        // justify-content: center;
+        align-items: center;
+        padding-top: 1rem;
+    }
+
+    .right {
+        background-color: black;
+    }
 }
-form .error-message {
-    background-color: red;
-    padding: 10px 15px;
-    font-size: 13px;
-    color: white;
-    border-radius: 5px;
+
+.left {
+    .logo-holder {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        align-self: flex-start;
+        margin-bottom: 2rem;
+        padding-left: 15px;
+        .logo {
+            height: 30px;
+            aspect-ratio: 1 / 1;
+        }
+        h2 {
+            font-weight: 600;
+            font-size: 1rem;
+        }
+    }
+    .title {
+        text-align: center;
+        h1 {
+            font-weight: 600;
+            margin-bottom: 0;
+        }
+        h4 {
+            font-weight: 400;
+            font-size: 0.8rem;
+            color: $grey;
+        }
+    }
+    form {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 1rem;
+        width: 70%;
+        padding-top: 1rem;
+        padding-bottom: 1rem;
+
+        input { 
+            height: 2rem;
+            padding-left: 10px;
+            background-color: transparent;
+            border: solid 1.5px $border-grey;
+            border-radius: 6px;
+            width: 60%;
+
+            &::placeholder {
+                color: $border-grey;
+            }
+            &[type="submit"] {
+                height: 2.2rem;
+                border: none;
+                background-color: $black;
+                color: white;
+                cursor: pointer;
+            }
+        }
+    }
+    .redirect-link {
+        font-size: 13px;
+        color: $grey;
+        a {
+            text-decoration: none;
+            color: $black;
+            span {
+                position: relative;
+                left: 0;
+                color: $black;
+                transition: left 0.3s ease;
+            }
+            &:hover {
+                span {
+                    left: 5px;
+                }
+            }
+        }
+    }
+    form .error-message {
+        background-color: red;
+        padding: 10px 15px;
+        font-size: 13px;
+        color: white;
+        border-radius: 5px;
+    }
 }
