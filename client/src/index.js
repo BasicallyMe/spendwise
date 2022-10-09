@@ -1,6 +1,6 @@
 import ReactDOM from "react-dom/client";
 import { createBrowserRouter, redirect, RouterProvider } from "react-router-dom";
-import { Transactions, Dashboard, SignIn, SignUp, ErrorPage } from "./components";
+import { Transactions, Dashboard, Settings, SignIn, SignUp, ErrorPage, HomePage } from "./components";
 import { checkLoggedIn, checkRegistered } from "./core/container";
 import App from "./App";
 import "./index.css";
@@ -14,14 +14,30 @@ const router = createBrowserRouter([
     path: "/",
     element: <App />,
     loader: async () => {
-      if (checkRegistered()) {
-        if (!checkLoggedIn()) {
-          return redirect('/signin');
-        }
-      } else {
+      if (!checkRegistered()) {
         return redirect('/register');
       }
+      if (!checkLoggedIn()) {
+        return redirect('/signin');
+      }
     },
+    children: [
+      {
+        index: true, element: <HomePage />
+      },
+      {
+        path: 'settings',
+        element: <Settings />
+      }, 
+      {
+        path: "transactions",
+        element: <Transactions />
+      },
+      {
+        path: "dashboard",
+        element: <Dashboard />
+      }
+    ],
     errorElement: <ErrorPage />
   },
   {

@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import { user } from "../../core/container";
 import { useForm } from "react-hook-form";
 import { Icon } from "../Icons";
 import "./styles.scss";
@@ -13,10 +14,13 @@ const SignIn = () => {
   } = useForm();
 
   const [message, setMessage] = useState("");
+  const [isSignedIn, setSignedIn] = useState(false);
+  const [disabled, setDisabled] = useState(false);
 
   const navigate = useNavigate();
 
   async function onSubmit(data) {
+    setDisabled(true);
     setMessage("");
     let status = null;
     try {
@@ -30,17 +34,26 @@ const SignIn = () => {
         body: JSON.stringify(data),
       });
       const response = await res.json();
+      status = await res.status;
       if (status === 401) {
         setMessage(response.message);
       }
-      console.log("response", response);
-      status = await res.status;
+      await setUserData(response);
     } catch (err) {
       console.log(err);
     }
-    if (status === 202) {
-      navigate("/", { replace: true });
+    if (status === 200) {
+      setSignedIn(true);
+      setTimeout(() => {
+        navigate("/", { replace: true });
+      }, 2000);
     }
+  }
+
+  async function setUserData({ firstName, lastName, email }) {
+    user.email = email;
+    user.firstName = firstName;
+    user.lastName = lastName;
   }
 
   return (
@@ -67,7 +80,13 @@ const SignIn = () => {
             autoComplete="on"
             {...register("password", { required: true })}
           />
-          <input type="submit" value="Sign in" />
+          <button type="submit" className="btn signin" disabled={disabled}>
+            {disabled
+              ? isSignedIn
+                ? "Signing you in"
+                : "Doing some magic"
+              : "Sign in"}
+          </button>
         </form>
         <p className="redirect-link">
           Don't have an account?{" "}

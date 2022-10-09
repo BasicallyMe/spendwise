@@ -1,0 +1,98 @@
+@import "../../core/variables.scss";
+
+.nav-links {
+  display: grid;
+  grid-template-rows: 1fr 4fr 1fr;
+  height: 100%;
+  align-items: center;
+  .logo-holder {
+    height: 100%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    align-self: flex-start;
+    font-size: 0.9rem;
+    font-weight: 500;
+    padding-left: 10px;
+    .logo {
+      height: 30px;
+      aspect-ratio: 1 / 1;
+    }
+  }
+  .links {
+    width: 100%;
+    height: 100%;
+    font-size: 0.9rem;
+    padding: 0;
+    margin: 0;
+    padding-top: 1rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    a {
+      text-decoration: none;
+      color: black;
+      border-radius: 6px;
+      width: 80%;
+      list-style-type: none;
+      font-size: 0.85rem;
+      font-weight: 500;
+      height: 2rem;
+      padding-left: 5px;
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      &.active {
+        background-color: $light-grey;
+      }
+    }
+    .signout {
+      font-weight: 500;
+      color: $black;
+      height: 2rem;
+      width: 82.5%;
+      display: inline-flex;
+      align-items: center;
+      gap: 9px;
+      background-color: transparent;
+      border: none;
+      text-align: left;
+    }
+  }
+
+  .user {
+    background-color: $light-grey;
+    padding: 10px 5px;
+    border-radius: 10px;
+    box-sizing: border-box;
+    max-height: 60%;
+    height: fit-content;
+    display: inline-flex;
+    align-items: center;
+    width: 90%;
+    justify-self: center;
+    gap: 8px;
+
+    .avatar {
+      height: 30px;
+      width: 30px;
+      border-radius: 50%;
+      background-color: white;
+    }
+    .user-info {
+      display: flex;
+      flex-direction: column;
+
+      h4 {
+        font-size: 0.85rem;
+        font-weight: 600;
+      }
+
+      .user-email {
+        font-size: 0.75rem;
+        color: $grey;
+      }
+    }
+  }
+}

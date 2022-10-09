@@ -13,36 +13,39 @@ const SignUp = () => {
   } = useForm();
 
   const [message, setMessage] = useState("");
+  const [disabled, setDisabled] = useState(false);
 
   const navigate = useNavigate();
 
   async function onSubmit(data) {
-    setMessage("");
-    let status = null;
-    try {
-      const res = await fetch("/user/register", {
-        method: "POST",
-        credentials: "include",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(data),
-      });
-      status = await res.status;
-      const response = await res.json();
-      if (res.status === 409) {
-        setMessage(response.message);
-      }
-      console.log(response);
-    } catch (err) {
-      console.log(err);
-    }
-    if (status === 201) {
-      setMessage("Your account was created succesfully");
-      setTimeout(() => {
-        navigate("/");
-      }, 3000);
-    }
+    console.log(data);
+    setDisabled(true);
+    // setMessage("");
+    // let status = null;
+    // try {
+    //   const res = await fetch("/user/register", {
+    //     method: "POST",
+    //     credentials: "include",
+    //     headers: {
+    //       "Content-Type": "application/json",
+    //     },
+    //     body: JSON.stringify(data),
+    //   });
+    //   status = await res.status;
+    //   const response = await res.json();
+    //   if (res.status === 409) {
+    //     setMessage(response.message);
+    //   }
+    //   console.log(response);
+    // } catch (err) {
+    //   console.log(err);
+    // }
+    // if (status === 201) {
+    //   setMessage("Your account was created succesfully");
+    //   setTimeout(() => {
+    //     navigate("/");
+    //   }, 3000);
+    // }
   }
 
   return (
@@ -78,7 +81,9 @@ const SignUp = () => {
             autoComplete="off"
             {...register("password", { required: true })}
           />
-          <input type="submit" value="Create account" />
+          <button type="submit" className="btn signin" disabled={disabled}>
+            {disabled ? "Wizard at work" : "Create account"}
+          </button>
         </form>
         <p className="redirect-link">
           Already have an account?{" "}

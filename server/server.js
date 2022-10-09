@@ -10,6 +10,7 @@ const jwt = require("jsonwebtoken");
 // importing custom middlewares
 const User = require("./model/user");
 const Database = require("./model/database");
+const auth = require('./middleware/auth');
 
 // PORT used by Heroku app
 const PORT = process.env.PORT || 5000;
@@ -80,20 +81,29 @@ app.post("/user/signin", async (req, res) => {
       res.status(401);
       switch(user.error) {
         case "auth/wrong-password": return res.json({message: "You're password might be wrong. Please try again"}).end();
-        case "auth/user-not-found": return res.json({message: "Couldn't find an account with this email. Please check your email"}).end();
+        case "auth/user-not-found": return res.json({message: "Couldn't find an account with this mail"}).end();
         default: return res.json({message: "Couldn't sign in to your account. Please try again"}).end();
       }
     }
+
+    const {firstName, lastName} = await Database.getUserData(user.uid);
+    user.firstName = firstName;
+    user.lastName = lastName;
+    console.log(user);
 
     const token = jwt.sign({ uid: user.uid, email }, process.env.TOKEN_KEY, {
       expiresIn: "2h",
     });
 
+    res.cookie("registered", user.uid, {
+      maxAge: 10 * 60 * 1000,
+    });
+
     res.cookie("uid", password, {
-      maxAge: 20000,
+      maxAge: 10 * 60 * 1000,
     });
     res.cookie("token", token, {
-      maxAge: 2 * 60 * 1000,
+      maxAge: 10 * 60 * 1000,
       httpOnly: true,
     });
 
@@ -112,7 +122,7 @@ app.delete("/user/signout", (req, res) => {
   res.status(200).end();
 });
 
-app.get("/user/data", (req, res) => {
+app.get("/user/data", auth, (req, res) => {
   res.status(200).json({ data: "This is some private data" }).end();
 });
 

@@ -1,18 +1,25 @@
 import React, { useEffect, useState } from "react";
+import { Outlet, useNavigate } from "react-router-dom";
 import { Navigation } from "./components";
-import useBearStore from "./core/useStore";
+import './App.css';
 
 const App = () => {
+  const navigate = useNavigate();
   async function getUserData() {
+    let status = null;
     try {
-      let response = await fetch("/user/data", {
+      const res = await fetch("http://localhost:5000/user/data", {
         method: "GET",
         credentials: "include",
       });
-      response = await response.json();
-      console.log(response);
+      status = await res.status;
+      const response = await res.json();
+      console.log(response, status);
     } catch (err) {
       console.log(err);
+    }
+    if (status === 403 || status === 401) {
+      navigate("/signin", { replace: true });
     }
   }
 
@@ -25,7 +32,9 @@ const App = () => {
       <div className="navigation">
         <Navigation />
       </div>
-      <div className="section"></div>
+      <div className="section">
+        <Outlet />
+      </div>
     </div>
   );
 };

@@ -1,5 +1,5 @@
 const { db } = require("../config/firebase");
-const { setDoc, doc } = require("firebase/firestore");
+const { getDoc, setDoc, doc } = require("firebase/firestore");
 
 async function createUserDatabase(user) {
   try {
@@ -10,7 +10,22 @@ async function createUserDatabase(user) {
   }
 }
 
+async function getUserData(uid) {
+  try {
+    const docSnap = await getDoc(doc(db, "users", uid));
+    if (docSnap.exists()) {
+      const {firstName, lastName} = docSnap.data();
+      return { firstName, lastName};
+    } else {
+      return { message: "Couldn't find user"}
+    }
+  } catch(err) {
+    return {};
+  }
+} 
+
 
 module.exports = {
     createUserDatabase: createUserDatabase,
+    getUserData: getUserData,
 }
