@@ -7,6 +7,8 @@ const verifyToken = (req, res, next) => {
   const token = req.cookies.token
 
   if (!token) {
+    res.clearCookie("uid");
+    res.clearCookie("token");
     return res.status(403).json({ message: "Not authorised. Please sign in to continue"});
   }
   try {

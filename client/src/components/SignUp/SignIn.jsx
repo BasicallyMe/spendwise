@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { user } from "../../core/container";
 import { useForm } from "react-hook-form";
 import { Icon } from "../Icons";
 import "./styles.scss";
@@ -37,8 +36,8 @@ const SignIn = () => {
       status = await res.status;
       if (status === 401) {
         setMessage(response.message);
+        setDisabled(false);
       }
-      await setUserData(response);
     } catch (err) {
       console.log(err);
     }
@@ -48,12 +47,6 @@ const SignIn = () => {
         navigate("/", { replace: true });
       }, 2000);
     }
-  }
-
-  async function setUserData({ firstName, lastName, email }) {
-    user.email = email;
-    user.firstName = firstName;
-    user.lastName = lastName;
   }
 
   return (

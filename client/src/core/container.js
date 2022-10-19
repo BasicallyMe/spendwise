@@ -9,14 +9,5 @@ export function checkRegistered() {
   return cookie.includes("registered");
   // return true
 }
-export let user = {
-  firstName: "",
-  lastName: "",
-  email: "",
-};
-
-export function getUserData() {
-  return user;
-}
 
 export const devUrl = "http:localhost:5000";

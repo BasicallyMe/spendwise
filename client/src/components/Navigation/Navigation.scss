@@ -44,7 +44,7 @@
       align-items: center;
       gap: 10px;
       &.active {
-        background-color: $light-grey;
+        background-color: $primary;
       }
     }
     .signout {
@@ -62,7 +62,7 @@
   }
 
   .user {
-    background-color: $light-grey;
+    background-color: $primary;
     padding: 10px 5px;
     border-radius: 10px;
     box-sizing: border-box;

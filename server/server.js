@@ -6,6 +6,7 @@ const cookieParser = require("cookie-parser");
 const path = require("path");
 const cors = require("cors");
 const jwt = require("jsonwebtoken");
+// const object = require("lodash/fp/object");
 
 // importing custom middlewares
 const User = require("./model/user");
@@ -81,21 +82,19 @@ app.post("/user/signin", async (req, res) => {
       res.status(401);
       switch(user.error) {
         case "auth/wrong-password": return res.json({message: "You're password might be wrong. Please try again"}).end();
-        case "auth/user-not-found": return res.json({message: "Couldn't find an account with this mail"}).end();
+        case "auth/user-not-found": return res.json({message: "Couldn't find an account with this email"}).end();
         default: return res.json({message: "Couldn't sign in to your account. Please try again"}).end();
       }
     }
 
-    const {firstName, lastName} = await Database.getUserData(user.uid);
-    user.firstName = firstName;
-    user.lastName = lastName;
-    console.log(user);
+    // const {firstName} = await Database.getUserData(user.uid);
+    // user.firstName = firstName;
 
     const token = jwt.sign({ uid: user.uid, email }, process.env.TOKEN_KEY, {
       expiresIn: "2h",
     });
 
-    res.cookie("registered", user.uid, {
+    res.cookie("registered", user.email, {
       maxAge: 10 * 60 * 1000,
     });
 
@@ -116,15 +115,19 @@ app.post("/user/signin", async (req, res) => {
   }
 });
 
+
+app.get("/user/data", auth, async (req, res) => {
+  const data = await Database.getUserData(req.user.uid);
+  console.log(data);
+  res.status(200).json({ data: "This is some private data" }).end();
+});
+
 app.delete("/user/signout", (req, res) => {
   res.clearCookie("uid");
   res.clearCookie("token");
   res.status(200).end();
 });
 
-app.get("/user/data", auth, (req, res) => {
-  res.status(200).json({ data: "This is some private data" }).end();
-});
 
 app.get("*", (req, res) => {
   res.sendFile(path.join(__dirname + "../client/dist/index.html"));

@@ -14,8 +14,9 @@ async function getUserData(uid) {
   try {
     const docSnap = await getDoc(doc(db, "users", uid));
     if (docSnap.exists()) {
-      const {firstName, lastName} = docSnap.data();
-      return { firstName, lastName};
+      const user = await docSnap.data();
+      console.log(user);
+      return user;
     } else {
       return { message: "Couldn't find user"}
     }
