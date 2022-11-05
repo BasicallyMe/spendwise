@@ -2,6 +2,7 @@ import React from "react";
 import { useNavigate, NavLink } from "react-router-dom";
 import { FiHome, FiGrid, FiClipboard, FiSettings, FiLogOut } from "react-icons/fi";
 import { getUserData } from '../../fetchers/fetchers';
+import avatar from '../../assets/avatar.jpg';
 import { Icon } from "../Icons";
 import "./Navigation.scss";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
@@ -11,7 +12,8 @@ export default function Navigation() {
   const queryClient = useQueryClient();
 
   const { data, isFetching } = useQuery(['user'], getUserData);
-  console.log(data);
+
+  console.log('👀', data.response);
 
   async function handleSignOut() {
     try {
@@ -70,10 +72,12 @@ export default function Navigation() {
         </button>
       </div>
       <div className="user">
-        <div className="avatar"></div>
+        <div className="avatar">
+          <img src={avatar}/>
+        </div>
         <div className="user-info">
-          <h4 className="user-name"></h4>
-          <span className="user-email"></span>
+          <h4 className="user-name">Jane Doe</h4>
+          <span className="user-email">janedoe@example.com</span>
         </div>
       </div>
     </div>

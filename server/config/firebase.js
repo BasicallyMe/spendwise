@@ -1,9 +1,10 @@
 const { initializeApp } = require('firebase/app');
 const { getAuth } = require('firebase/auth');
 const { getFirestore } = require('firebase/firestore')
+require('dotenv').config();
 
 const firebaseConfig = {
-  apiKey: "AIzaSyBUIBMlG6XyQKHkKQ_3LQpTpBBjQvAhKXM",
+  apiKey: process.env.FIREBASE_API_KEY,
   authDomain: "whatsmyexpense.firebaseapp.com",
   projectId: "whatsmyexpense",
   storageBucket: "whatsmyexpense.appspot.com",
@@ -13,9 +14,8 @@ const firebaseConfig = {
 };
 
 const app = initializeApp(firebaseConfig);
-
 const auth = getAuth(app);
-const db = getFirestore(app);
+const db = getFirestore(app); 
 
 module.exports = {
     auth: auth,

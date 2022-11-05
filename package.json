@@ -7,6 +7,7 @@
     "build": "cd client && npm install && npm run build",
     "serve": "cd server && npm install && npm run serve",
     "dev": "concurrently \"npm run client\" \"npm run server\"",
+    "test": "concurrently \"npm run client\" \"npm run serve\"",
     "server": "cd server && npm run dev",
     "client": "cd client && npm run dev"
   },
@@ -32,7 +33,6 @@
     "cors": "^2.8.5",
     "firebase": "^9.10.0",
     "http-proxy-middleware": "^2.0.6",
-    "jsonwebtoken": "^8.5.1",
-    "lodash": "^4.17.21"
+    "jsonwebtoken": "^8.5.1"
   }
 }

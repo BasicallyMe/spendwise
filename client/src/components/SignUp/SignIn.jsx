@@ -38,6 +38,7 @@ const SignIn = () => {
         setMessage(response.message);
         setDisabled(false);
       }
+      console.log('🐸', response);
     } catch (err) {
       console.log(err);
     }
@@ -88,7 +89,7 @@ const SignIn = () => {
           </Link>
         </p>
       </div>
-      <div className="right"></div>
+      <div className="right" />
     </div>
   );
 };

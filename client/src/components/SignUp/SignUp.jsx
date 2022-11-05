@@ -13,39 +13,39 @@ const SignUp = () => {
   } = useForm();
 
   const [message, setMessage] = useState("");
+  const [isSignedIn, setSignedIn] = useState(false);
   const [disabled, setDisabled] = useState(false);
 
   const navigate = useNavigate();
 
   async function onSubmit(data) {
-    console.log(data);
     setDisabled(true);
-    // setMessage("");
-    // let status = null;
-    // try {
-    //   const res = await fetch("/user/register", {
-    //     method: "POST",
-    //     credentials: "include",
-    //     headers: {
-    //       "Content-Type": "application/json",
-    //     },
-    //     body: JSON.stringify(data),
-    //   });
-    //   status = await res.status;
-    //   const response = await res.json();
-    //   if (res.status === 409) {
-    //     setMessage(response.message);
-    //   }
-    //   console.log(response);
-    // } catch (err) {
-    //   console.log(err);
-    // }
-    // if (status === 201) {
-    //   setMessage("Your account was created succesfully");
-    //   setTimeout(() => {
-    //     navigate("/");
-    //   }, 3000);
-    // }
+    setMessage("");
+    let status = null;
+    try {
+      const res = await fetch("/user/register", {
+        method: "POST",
+        credentials: "include",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data),
+      });
+      status = await res.status;
+      const response = await res.json();
+      if (res.status === 409) {
+        setMessage(response.message);
+      }
+      console.log('🌟', response); 
+    } catch (err) {
+      console.log(err);
+    }
+    if (status === 201) {
+      setSignedIn(true);
+      setTimeout(() => {
+        navigate("/");
+      }, 3000);
+    }
   }
 
   return (
@@ -82,7 +82,11 @@ const SignUp = () => {
             {...register("password", { required: true })}
           />
           <button type="submit" className="btn signin" disabled={disabled}>
-            {disabled ? "Wizard at work" : "Create account"}
+            {disabled
+              ? isSignedIn
+                ? "Creating your account"
+                : "Wizard at work"
+              : "Create account"}
           </button>
         </form>
         <p className="redirect-link">

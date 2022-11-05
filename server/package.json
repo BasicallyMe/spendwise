@@ -18,7 +18,8 @@
     "dotenv": "^16.0.2",
     "express": "^4.18.1",
     "firebase": "^9.10.0",
-    "firebase-admin": "^11.0.1"
+    "firebase-admin": "^11.0.1",
+    "lodash": "^4.17.21"
   },
   "devDependencies": {
     "http-proxy-middleware": "^2.0.6",

@@ -13,10 +13,6 @@
     align-items: center;
     padding-top: 1rem;
   }
-
-  .right {
-    background-color: black;
-  }
 }
 
 .left {
@@ -123,5 +119,16 @@
     font-size: 13px;
     color: white;
     border-radius: 5px;
+  }
+}
+
+.right {
+  background-color: $light-grey;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+
+  .content-container {
+    background-color: $white;
   }
 }
