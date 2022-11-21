@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
+import { merge } from 'lodash';
+import useBearStore from "../../core/useStore";
 import { Icon } from "../Icons";
 import "./styles.scss";
 
@@ -12,6 +14,8 @@ const SignIn = () => {
     formState: { errors },
   } = useForm();
 
+  const { user, setUser } = useBearStore();
+
   const [message, setMessage] = useState("");
   const [isSignedIn, setSignedIn] = useState(false);
   const [disabled, setDisabled] = useState(false);
@@ -20,7 +24,8 @@ const SignIn = () => {
 
   async function onSubmit(data) {
     setDisabled(true);
-    setMessage("");
+    setMessage("");   
+
     let status = null;
     try {
       const res = await fetch("/user/signin", {
@@ -37,15 +42,16 @@ const SignIn = () => {
       if (status === 401) {
         setMessage(response.message);
         setDisabled(false);
+      } else {
+        setUser(response);
       }
-      console.log('🐸', response);
     } catch (err) {
       console.log(err);
     }
     if (status === 200) {
       setSignedIn(true);
       setTimeout(() => {
-        navigate("/", { replace: true });
+        navigate("/transactions/new", { replace: true });
       }, 2000);
     }
   }

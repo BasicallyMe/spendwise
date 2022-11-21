@@ -127,7 +127,6 @@ app.delete("/user/signout", (req, res) => {
 app.get("/user/data", auth, async (req, res) => {
   try {
     const user = await Database.getUserData(req.user.uid);
-    console.log('👀', user);
     res.status(200).json(user).end();
 
   } catch (err) {

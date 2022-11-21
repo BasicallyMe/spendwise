@@ -63,15 +63,8 @@
       width: 60%;
 
       &::placeholder {
-        color: $border-grey;
+        color: $content-grey;
       }
-      // &[type="submit"] {
-      //     height: 2.2rem;
-      //     border: none;
-      //     background-color: $black;
-      //     color: white;
-      //     cursor: pointer;
-      // }
     }
     .btn {
       font-family: Inter;
@@ -82,10 +75,11 @@
       border: none;
       cursor: pointer;
       border-radius: 6px;
+      position: relative;
       transition: background-color 0.3s;
 
-      &:active {
-        scale: 0.98;
+      &:hover {
+        top: -2px;
       }
 
       &:disabled {
@@ -124,11 +118,4 @@
 
 .right {
   background-color: $light-grey;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-
-  .content-container {
-    background-color: $white;
-  }
 }

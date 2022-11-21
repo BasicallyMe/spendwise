@@ -1,7 +1,6 @@
 import ReactDOM from "react-dom/client";
 import {
   createBrowserRouter,
-  redirect,
   RouterProvider,
 } from "react-router-dom";
 import {
@@ -12,6 +11,7 @@ import {
   SignUp,
   ErrorPage,
   HomePage,
+  AddTransaction
 } from "./components";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import App, { loader as rootLoader } from "./App";
@@ -44,6 +44,10 @@ const router = createBrowserRouter([
       {
         path: "transactions",
         element: <Transactions />,
+      },
+      {
+        path: "transactions/new",
+        element: <AddTransaction />,
       },
       {
         path: "dashboard",

@@ -2,9 +2,12 @@
 
 .nav-links {
   display: grid;
+  max-width: 100%;
   grid-template-rows: 1fr 4fr 1fr;
   height: 100%;
+  width: 100%;
   align-items: center;
+
   .logo-holder {
     height: 100%;
     display: flex;
@@ -62,32 +65,35 @@
   }
 
   .user {
-    background-color: $primary;
-    padding: 10px 5px;
-    border-radius: 10px;
+    padding-left: 15px;
+    padding-right: 0;
     box-sizing: border-box;
-    max-height: 60%;
+    min-height: 100%;
     height: fit-content;
     display: inline-flex;
     align-items: center;
-    width: 90%;
+    width: 100%;
     justify-self: center;
     gap: 8px;
+    overflow: hidden;
 
     .avatar {
-      height: 40px;
-      width: 40px;
-      border-radius: 50%;
+      $size: 2.3rem;
+      height: $size;
+      min-width: $size;
+      border-radius: 10px;
+      overflow: hidden;
 
       img {
         max-width: 100%;
         max-height: 100%;
-        border-radius: inherit;
       }
     }
     .user-info {
       display: flex;
       flex-direction: column;
+      gap: 5px;
+      overflow: hidden;
 
       h4 {
         font-size: 0.85rem;
@@ -97,7 +103,42 @@
       .user-email {
         font-size: 0.75rem;
         color: $grey;
+        text-overflow: ellipsis;
+        overflow: hidden;
+      }
+    }
+    .loader {
+      
+      &.avatar,&.user-name,&.user-email {
+        background-color: $loading;
+        animation: loading 3s infinite;
+      }
+
+      &.user-info {
+        gap: 5px;
+      }
+
+      &.user-name, &.user-email {
+        height: 15px;
+        width: 5rem;
+        border-radius: 2px;
+      }
+
+      &.user-email {
+        width: 6rem;
       }
     }
   }
+}
+
+@keyframes loading {
+  0% {
+    background-color: $loading;
+  }
+  50% {
+    background-color: #CFD3D6;
+  } 
+  100% {
+    background-color: $loading;
+  }  
 }

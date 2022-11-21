@@ -56,7 +56,7 @@ const SignUp = () => {
           <h2>Expensi</h2>
         </div>
         <div className="title">
-          <h1>Let's get your started</h1>
+          <h1>Let's get you started</h1>
           <h4>Fill in your details and you're good to go</h4>
         </div>
         <form onSubmit={handleSubmit(onSubmit)}>

@@ -12,9 +12,10 @@
 
 .navigation {
     height: 100%;
+    max-width: 13rem;
 }
 
-.container .btn {
+.container .btn, button {
   font-family: Inter;
   background-color: #000000;
   color: white;
