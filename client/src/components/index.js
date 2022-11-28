@@ -7,4 +7,4 @@ export { default as Settings } from "./Settings/Settings";
 export { default as ErrorPage } from "./Error/ErrorPage";
 export { default as HomePage } from "./HomePage/HomePage";
 export { default as Register } from "./SignUp/Register";
-export { default as AddTransaction } from "./Transactions/AddTransaction";
+export { default as NewTransaction } from "./Transactions/NewTransaction";

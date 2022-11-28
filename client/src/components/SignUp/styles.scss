@@ -68,11 +68,10 @@
     }
     .btn {
       font-family: Inter;
-      background-color: #000000;
+      background-color: $black;
       color: white;
       height: 2.2rem;
       width: 60%;
-      border: none;
       cursor: pointer;
       border-radius: 6px;
       position: relative;

@@ -1,7 +1,7 @@
 import React from "react";
 import { Outlet, redirect, useNavigate } from "react-router-dom";
 import { Navigation } from "./components";
-import './App.css';
+import './App.scss';
 import { checkRegistered, checkLoggedIn } from "./core/container";
 
 // ➡ Loader function to redirect based on state

@@ -1,11 +1,14 @@
 import React from "react";
 // import PropTypes from "prop-types";
-import { Logo } from './';
+import { IoTicketOutline } from "react-icons/io5";
+import { Logo } from "./";
 
 const Icon = ({ name }) => {
   switch (name) {
     case "Logo":
       return <Logo />;
+    case "Entertainment":
+      return <IoTicketOutline />;
     default:
       return null;
   }

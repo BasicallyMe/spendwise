@@ -9,7 +9,7 @@ import {
 } from "react-icons/fi";
 import useBearStore from "../../core/useStore";
 import { getUserData } from "../../fetchers/fetchers";
-import { merge, isEqual, isEmpty } from "lodash";
+import { isEqual } from "lodash";
 import avatar from "../../assets/avatar.jpg";
 import { Icon } from "../Icons";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
@@ -49,7 +49,7 @@ export default function Navigation() {
   return (
     <div className="nav-links">
       <div className="logo-holder">
-        <Icon name={`Logo`} />
+        <Icon name="Logo" />
         <span>Expensi</span>
       </div>
       <div className="links">

@@ -11,7 +11,7 @@ import {
   SignUp,
   ErrorPage,
   HomePage,
-  AddTransaction
+  NewTransaction
 } from "./components";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import App, { loader as rootLoader } from "./App";
@@ -47,7 +47,7 @@ const router = createBrowserRouter([
       },
       {
         path: "transactions/new",
-        element: <AddTransaction />,
+        element: <NewTransaction />,
       },
       {
         path: "dashboard",
