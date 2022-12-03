@@ -116,8 +116,6 @@ app.post("/user/signin", async (req, res) => {
   }
 });
 
-
-
 app.delete("/user/signout", (req, res) => {
   res.clearCookie("uid");
   res.clearCookie("token");
@@ -133,6 +131,15 @@ app.get("/user/data", auth, async (req, res) => {
     res.status(400).json({ message: "Couldn't find data" }).end();
   }
 });
+
+app.post("/user/transaction/new", auth, async (req, res) => {
+  try {
+    const response = await Database.addTransaction(req.user.uid, req.body);
+    res.status(200).json({ message: "Data submitted successfully"}).end();
+  } catch(err) {
+    console.log(err);
+  }
+})
 
 app.get("*", (req, res) => {
   res.sendFile(path.join(__dirname + "../client/dist/index.html"));

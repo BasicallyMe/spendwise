@@ -1,7 +1,7 @@
 import React from "react";
 // import PropTypes from "prop-types";
 import { IoTicketOutline } from "react-icons/io5";
-import { Logo } from "./";
+import { Logo, Mastercard, Visa } from "./";
 
 const Icon = ({ name }) => {
   switch (name) {
@@ -9,6 +9,10 @@ const Icon = ({ name }) => {
       return <Logo />;
     case "Entertainment":
       return <IoTicketOutline />;
+    case "Mastercard":
+      return <Mastercard />;
+    case "Visa":
+      return <Visa />;
     default:
       return null;
   }

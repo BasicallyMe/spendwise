@@ -11,8 +11,22 @@ const NewTransaction = () => {
     formState: { errors },
   } = useForm();
 
-  const onSubmit = (data) => {
-    console.log(data);
+  const onSubmit = async (data) => {
+    try {
+      const res = await fetch("/user/transaction/new", {
+        method: "POST",
+        cors: "cors",
+        credentials: "include",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data),
+      });
+      const response = await res.json();
+      console.log(response);
+    } catch (err) {
+      console.log(err);
+    }
   };
 
   const handleCancelClick = () => {
@@ -25,7 +39,7 @@ const NewTransaction = () => {
       <form onSubmit={handleSubmit(onSubmit)}>
         <input
           placeholder="Amount"
-          {...register("Amount", { required: true })}
+          {...register("amount", { required: true })}
         />
         <select
           defaultValue="Select an option"
@@ -40,17 +54,17 @@ const NewTransaction = () => {
           <h4>Payment method</h4>
           <label>
             <input type="radio" {...register("payment")} value="0124" />
-            <div>
-              <span className="card-number">4628 4248 6249 0124</span>
-              <span className="card-logo">VISA</span>
-            </div>
+            <span className="card-number">4628 4248 6249 0124</span>
+            <span className="card-logo">
+              <Icon name="Visa" />
+            </span>
           </label>
           <label>
             <input type="radio" {...register("payment")} value="0134" />
-            <div>
-              <span className="card-number">6457 7685 7757 0134</span>
-              <span className="card-logo">MasterCard</span>
-            </div>
+            <span className="card-number">6457 7685 7757 0134</span>
+            <span className="card-logo">
+              <Icon name="Mastercard" />
+            </span>
           </label>
         </div>
         <input

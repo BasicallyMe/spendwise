@@ -1,5 +1,5 @@
 const { db } = require("../config/firebase");
-const { getDoc, setDoc, doc } = require("firebase/firestore");
+const { getDoc, setDoc, doc, collection } = require("firebase/firestore");
 
 async function createUserDatabase(user) {
   try {
@@ -21,8 +21,17 @@ async function getUserData(uid) {
   }
 } 
 
+async function addTransaction(uid, data) {
+ try {
+  console.log(uid, user);
+ } catch(err) {
+  console.log(err);
+ }
+}
+
 
 module.exports = {
     createUserDatabase: createUserDatabase,
     getUserData: getUserData,
+    addTransaction: addTransaction,
 }
