@@ -1,5 +1,7 @@
 const { db } = require("../config/firebase");
-const { getDoc, setDoc, doc, collection } = require("firebase/firestore");
+const { addDoc, collection, doc, getDoc, setDoc, } = require("firebase/firestore");
+const months = require('months');
+const { getMonth, getYear, parseISO } = require('date-fns');
 
 async function createUserDatabase(user) {
   try {
@@ -21,9 +23,19 @@ async function getUserData(uid) {
   }
 } 
 
+const getCollectionName = (date) => {
+  const parseDate = parseISO(date);
+  const month = months[getMonth(parseDate)];
+  const year = getYear(parseDate);
+  return `${month}_${year}`;
+}
+
 async function addTransaction(uid, data) {
  try {
-  console.log(uid, user);
+   const collectionName = getCollectionName(data.date);
+   // const docRef = doc(db, `users/${uid}/transactions/`);
+   const collectionRef = collection(db, `users/${uid}/${collectionName}`);
+   
  } catch(err) {
   console.log(err);
  }

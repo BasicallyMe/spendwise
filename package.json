@@ -33,6 +33,7 @@
     "cors": "^2.8.5",
     "firebase": "^9.10.0",
     "http-proxy-middleware": "^2.0.6",
-    "jsonwebtoken": "^8.5.1"
+    "jsonwebtoken": "^8.5.1",
+    "months": "^2.1.0"
   }
 }

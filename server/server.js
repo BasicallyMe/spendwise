@@ -1,6 +1,10 @@
 const express = require("express");
 require("dotenv").config();
 
+// importing helper packages
+const { getMonth, parseISO } = require("date-fns");
+const months = require('months');
+
 // importing global middlewares
 const cookieParser = require("cookie-parser");
 const path = require("path");
@@ -11,7 +15,7 @@ const object = require("lodash/fp/object");
 // importing custom middlewares
 const User = require("./model/user");
 const Database = require("./model/database");
-const auth = require('./middleware/auth');
+const auth = require("./middleware/auth");
 
 // PORT used by Heroku app
 const PORT = process.env.PORT || 5000;
@@ -46,9 +50,13 @@ app.post("/user/register", async (req, res) => {
 
     if (user?.error) {
       res.status(409);
-      switch(user.error) {
-        case "auth/email-already-in-use": return res.json({ message: "This email is already in use"}).end();
-        default: return res.json({message: "Couldn't create your account. Please try again"}).end();
+      switch (user.error) {
+        case "auth/email-already-in-use":
+          return res.json({ message: "This email is already in use" }).end();
+        default:
+          return res
+            .json({ message: "Couldn't create your account. Please try again" })
+            .end();
       }
     }
 
@@ -80,10 +88,23 @@ app.post("/user/signin", async (req, res) => {
 
     if (user?.error) {
       res.status(401);
-      switch(user.error) {
-        case "auth/wrong-password": return res.json({message: "You're password might be wrong. Please try again"}).end();
-        case "auth/user-not-found": return res.json({message: "Couldn't find an account with this email"}).end();
-        default: return res.json({message: "Couldn't sign in to your account. Please try again"}).end();
+      switch (user.error) {
+        case "auth/wrong-password":
+          return res
+            .json({
+              message: "You're password might be wrong. Please try again",
+            })
+            .end();
+        case "auth/user-not-found":
+          return res
+            .json({ message: "Couldn't find an account with this email" })
+            .end();
+        default:
+          return res
+            .json({
+              message: "Couldn't sign in to your account. Please try again",
+            })
+            .end();
       }
     }
 
@@ -126,7 +147,6 @@ app.get("/user/data", auth, async (req, res) => {
   try {
     const user = await Database.getUserData(req.user.uid);
     res.status(200).json(user).end();
-
   } catch (err) {
     res.status(400).json({ message: "Couldn't find data" }).end();
   }
@@ -135,11 +155,14 @@ app.get("/user/data", auth, async (req, res) => {
 app.post("/user/transaction/new", auth, async (req, res) => {
   try {
     const response = await Database.addTransaction(req.user.uid, req.body);
-    res.status(200).json({ message: "Data submitted successfully"}).end();
-  } catch(err) {
+    res
+      .status(200)
+      .json({ message: "Data submitted successfully" })
+      .end();
+  } catch (err) {
     console.log(err);
   }
-})
+});
 
 app.get("*", (req, res) => {
   res.sendFile(path.join(__dirname + "../client/dist/index.html"));
