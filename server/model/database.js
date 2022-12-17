@@ -34,7 +34,6 @@ async function addTransaction(uid, data) {
  try {
    const collectionName = getCollectionName(data.date);
    data.timestamp = Timestamp.fromDate(new Date(data.date));
-   // const docRef = doc(db, `users/${uid}/transactions/`);
    const collectionRef = collection(db, `users/${uid}/${collectionName}`);
    const newDoc = await addDoc(collectionRef, data);
    console.log(newDoc.id, 'new doc created');
