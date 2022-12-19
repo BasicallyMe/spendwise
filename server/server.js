@@ -3,7 +3,7 @@ require("dotenv").config();
 
 // importing helper packages
 const { getMonth, parseISO } = require("date-fns");
-const months = require('months');
+const months = require("months");
 
 // importing global middlewares
 const cookieParser = require("cookie-parser");
@@ -52,10 +52,10 @@ app.post("/user/register", async (req, res) => {
       res.status(409);
       switch (user.error) {
         case "auth/email-already-in-use":
-          return res.json({ message: "This email is already in use" }).end();
+          return res.json({ message: "Do you have an evil twin, because this email is already in use. Please try a different one." }).end();
         default:
           return res
-            .json({ message: "Couldn't create your account. Please try again" })
+            .json({ message: "Your account couldn't be created. Please make sure we've got your details right." })
             .end();
       }
     }
@@ -76,7 +76,7 @@ app.post("/user/register", async (req, res) => {
 
     res.status(201).json(user).end();
   } catch (err) {
-    res.status(404).json({ message: "Couldn't create account" }).end();
+    res.status(404).json({ message: "Your account couldn't be created. Please make sure we've got your details right." }).end();
   }
 });
 
@@ -92,17 +92,18 @@ app.post("/user/signin", async (req, res) => {
         case "auth/wrong-password":
           return res
             .json({
-              message: "You're password might be wrong. Please try again",
+              message: "The wizard thinks your password might be wrong. Please try a different one.",
             })
             .end();
         case "auth/user-not-found":
           return res
-            .json({ message: "Couldn't find an account with this email" })
+            .json({ message: "The wizard couldn't find an account with this email. Please try a different one." })
             .end();
         default:
           return res
             .json({
-              message: "Couldn't sign in to your account. Please try again",
+              message:
+                "The wizard couldn't recognise you. Please make sure we've got your details right.",
             })
             .end();
       }
@@ -132,7 +133,10 @@ app.post("/user/signin", async (req, res) => {
   } catch (err) {
     res
       .status(400)
-      .json({ message: "Couldn't sign in to your account. Please try again" })
+      .json({
+        message:
+          "Sorry, we couldn't sign you in. Please make sure we've got your details right.",
+      })
       .end();
   }
 });
@@ -157,10 +161,27 @@ app.post("/user/transaction/new", auth, async (req, res) => {
     const response = await Database.addTransaction(req.user.uid, req.body);
     res
       .status(200)
-      .json({ message: "Data submitted successfully" })
+      .json({ message: "Your transaction has been added successfully." })
       .end();
   } catch (err) {
     console.log(err);
+    res
+      .status(400)
+      .json({
+        message:
+          "Your data couldn't be added. Please make sure we've got the details right.",
+      })
+      .end();
+  }
+});
+
+app.get("/user/transaction", auth, async (req, res) => {
+  try {
+    const data = await Database.getTransactions(req.user.uid);
+    res.status(200).json({ message: "Data queried successfully", data }).end();
+  } catch (err) {
+    console.log(err);
+    res.status(400).send("Couldn't query data").end();
   }
 });
 

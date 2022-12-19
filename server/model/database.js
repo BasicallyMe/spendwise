@@ -1,7 +1,14 @@
 const { db } = require("../config/firebase");
-const { addDoc, collection, doc, getDoc, setDoc, Timestamp } = require("firebase/firestore");
-const months = require('months');
-const { getMonth, getYear, parseISO } = require('date-fns');
+const {
+  addDoc,
+  collection,
+  doc,
+  getDoc,
+  getDocs,
+  orderBy,
+  query,
+  setDoc
+} = require("firebase/firestore");
 
 async function createUserDatabase(user) {
   try {
@@ -18,33 +25,41 @@ async function getUserData(uid) {
     if (docSnap.exists()) {
       return docSnap.data();
     }
-  } catch(err) {
+  } catch (err) {
     return {};
   }
-} 
-
-const getCollectionName = (date) => {
-  const parseDate = parseISO(date);
-  const month = months[getMonth(parseDate)];
-  const year = getYear(parseDate);
-  return `${month}_${year}`;
 }
 
 async function addTransaction(uid, data) {
- try {
-   const collectionName = getCollectionName(data.date);
-   data.timestamp = Timestamp.fromDate(new Date(data.date));
-   const collectionRef = collection(db, `users/${uid}/${collectionName}`);
-   const newDoc = await addDoc(collectionRef, data);
-   console.log(newDoc.id, 'new doc created');
- } catch(err) {
-  console.log(err);
- }
+  try {
+    const collectionRef = collection(db, `users/${uid}/transactions`);
+    await addDoc(collectionRef, data);
+    return true;
+  } catch (err) {
+    console.log(err);
+    return false;
+  }
 }
 
+async function getTransactions(uid) {
+  try {
+    const transactionRef = collection(db, `users/${uid}/transactions`);
+    const dataQuery = query(transactionRef, orderBy("date", "desc"));
+    const querySnapshot = await getDocs(dataQuery);
+    const data = [];
+    querySnapshot.forEach((doc) => {
+      data.push({...doc.data(), id: doc.id})
+    });
+    return data;
+  } catch (err) {
+    console.log(err);
+    return false;
+  }
+}
 
 module.exports = {
-    createUserDatabase: createUserDatabase,
-    getUserData: getUserData,
-    addTransaction: addTransaction,
-}
+  createUserDatabase: createUserDatabase,
+  getUserData: getUserData,
+  addTransaction: addTransaction,
+  getTransactions: getTransactions,
+};
