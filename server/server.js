@@ -202,15 +202,7 @@ app.post("/user/transaction/new", auth, async (req, res) => {
 app.get("/user/transaction", auth, async (req, res) => {
   try {
     const data = await Database.getTransactions(req.user.uid);
-    if (isEmpty(data)) {
-      return res
-        .status(200)
-        .json({
-          message:
-            "The explorers didn't find anything in the storage. Have you added any transaction yet?",
-        })
-        .end();
-    }
+
     if (data === false) {
       return res
         .status(400)
@@ -220,8 +212,19 @@ app.get("/user/transaction", auth, async (req, res) => {
         })
         .end();
     }
+
+    if (isEmpty(data)) {
+      return res
+        .status(200)
+        .json({
+          message:
+            "The explorers didn't find anything in the storage. Have you added any transaction yet?",
+        })
+        .end();
+    }
+
     res.status(200).json({ message: "Data queried successfully", data }).end();
-  } catch (err) {
+  } catch (err) {    
     console.log(err);
     res
       .status(400)
