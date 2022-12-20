@@ -43,8 +43,8 @@ async function addTransaction(uid, data) {
 
 async function getTransactions(uid) {
   try {
-    const transactionRef = collection(db, `users/${uid}/transactions`);
-    const dataQuery = query(transactionRef, orderBy("date", "desc"));
+    const collectionRef = collection(db, `users/${uid}/transactions`);
+    const dataQuery = query(collectionRef, orderBy("date", "desc"));
     const querySnapshot = await getDocs(dataQuery);
     const data = [];
     querySnapshot.forEach((doc) => {

@@ -1,16 +1,13 @@
 const express = require("express");
 require("dotenv").config();
 
-// importing helper packages
-const { getMonth, parseISO } = require("date-fns");
-const months = require("months");
-
 // importing global middlewares
 const cookieParser = require("cookie-parser");
 const path = require("path");
 const cors = require("cors");
 const jwt = require("jsonwebtoken");
 const object = require("lodash/fp/object");
+const { isEmpty } = require("lodash");
 
 // importing custom middlewares
 const User = require("./model/user");
@@ -52,10 +49,18 @@ app.post("/user/register", async (req, res) => {
       res.status(409);
       switch (user.error) {
         case "auth/email-already-in-use":
-          return res.json({ message: "Do you have an evil twin, because this email is already in use. Please try a different one." }).end();
+          return res
+            .json({
+              message:
+                "Do you have an evil twin, because this email is already in use. Please try a different one.",
+            })
+            .end();
         default:
           return res
-            .json({ message: "Your account couldn't be created. Please make sure we've got your details right." })
+            .json({
+              message:
+                "Your account couldn't be created. Please make sure we've got your details right.",
+            })
             .end();
       }
     }
@@ -76,7 +81,13 @@ app.post("/user/register", async (req, res) => {
 
     res.status(201).json(user).end();
   } catch (err) {
-    res.status(404).json({ message: "Your account couldn't be created. Please make sure we've got your details right." }).end();
+    res
+      .status(404)
+      .json({
+        message:
+          "Your account couldn't be created. Please make sure we've got your details right.",
+      })
+      .end();
   }
 });
 
@@ -92,12 +103,16 @@ app.post("/user/signin", async (req, res) => {
         case "auth/wrong-password":
           return res
             .json({
-              message: "The wizard thinks your password might be wrong. Please try a different one.",
+              message:
+                "The wizard thinks your password might be wrong. Please try a different one.",
             })
             .end();
         case "auth/user-not-found":
           return res
-            .json({ message: "The wizard couldn't find an account with this email. Please try a different one." })
+            .json({
+              message:
+                "The wizard couldn't find an account with this email. Please try a different one.",
+            })
             .end();
         default:
           return res
@@ -159,6 +174,15 @@ app.get("/user/data", auth, async (req, res) => {
 app.post("/user/transaction/new", auth, async (req, res) => {
   try {
     const response = await Database.addTransaction(req.user.uid, req.body);
+    if (response !== true) {
+      return res
+        .status(400)
+        .json({
+          message:
+            "Your transaction couldn't be added. Please make sure we've got the right data.",
+        })
+        .end();
+    }
     res
       .status(200)
       .json({ message: "Your transaction has been added successfully." })
@@ -169,7 +193,7 @@ app.post("/user/transaction/new", auth, async (req, res) => {
       .status(400)
       .json({
         message:
-          "Your data couldn't be added. Please make sure we've got the details right.",
+          "Your transaction couldn't be added. Please make sure we've got the right data.",
       })
       .end();
   }
@@ -178,10 +202,34 @@ app.post("/user/transaction/new", auth, async (req, res) => {
 app.get("/user/transaction", auth, async (req, res) => {
   try {
     const data = await Database.getTransactions(req.user.uid);
+    if (isEmpty(data)) {
+      return res
+        .status(200)
+        .json({
+          message:
+            "The explorers didn't find anything in the storage. Have you added any transaction yet?",
+        })
+        .end();
+    }
+    if (data === false) {
+      return res
+        .status(400)
+        .json({
+          message:
+            "Sorry, we couldn't get your records. Click the button below to try again.",
+        })
+        .end();
+    }
     res.status(200).json({ message: "Data queried successfully", data }).end();
   } catch (err) {
     console.log(err);
-    res.status(400).send("Couldn't query data").end();
+    res
+      .status(400)
+      .json({
+        message:
+          "Sorry, we couldn't get your records. Click the button below to try again.",
+      })
+      .end();
   }
 });
 
