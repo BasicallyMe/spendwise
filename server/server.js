@@ -133,14 +133,14 @@ app.post("/user/signin", async (req, res) => {
     });
 
     res.cookie("registered", user.email, {
-      maxAge: 10 * 60 * 1000,
+      maxAge: 60 * 60 * 1000,
     });
 
     res.cookie("uid", password, {
-      maxAge: 10 * 60 * 1000,
+      maxAge: 60 * 60 * 1000,
     });
     res.cookie("token", token, {
-      maxAge: 10 * 60 * 1000,
+      maxAge: 60 * 60 * 1000,
       httpOnly: true,
     });
 

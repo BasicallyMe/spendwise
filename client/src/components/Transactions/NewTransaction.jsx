@@ -37,15 +37,21 @@ const NewTransaction = () => {
     <div className="new-transaction section">
       <h2>New transaction</h2>
       <form onSubmit={handleSubmit(onSubmit)}>
-        <input
-          placeholder="Amount"
-          {...register("amount", { required: true })}
-        />
         <select
-          defaultValue="Select an option"
+          defaultValue="Select a category"
+          {...register("type", { required: true })}
+        >
+          <option disabled>Select a category</option>
+          <option value="Food & Drinks">Income</option>
+          <option value="Groceries">Expense</option>
+          <option value="Essentials">Essentials</option>
+          <option value="Entertainment">Investments</option>
+        </select>
+        <select
+          defaultValue="Select a type"
           {...register("category", { required: true })}
         >
-          <option disabled>Select an option</option>
+          <option disabled>Select a type</option>
           <option value="Food & Drinks">Food & Drinks</option>
           <option value="Groceries">Groceries</option>
           <option value="Entertainment">Entertainment</option>
