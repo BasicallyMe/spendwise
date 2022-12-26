@@ -11,6 +11,35 @@ const NewTransaction = () => {
     formState: { errors },
   } = useForm();
 
+  const categories = {
+    expenses: [
+      'Shopping',
+      'Transportation',
+      'Food & Drinks',
+      'Gifts',
+      'Entertainment',
+      'Others'
+    ], 
+    essentials: [
+      'Groceries',
+      'Transportation',
+      'Healthcare',
+      'Bills & Subscription',
+      'Utilities',
+      'Supplies',
+      'Debt',
+      'Others'
+    ],
+    investments: [
+      'Insurance',
+      'SIPs',
+      'Stocks & Shares',
+      'Bonds',
+      'ETFs',
+      'Others'
+    ],
+  }
+
   const onSubmit = async (data) => {
     try {
       const res = await fetch("/user/transaction/new", {
@@ -41,17 +70,17 @@ const NewTransaction = () => {
           defaultValue="Select a category"
           {...register("type", { required: true })}
         >
-          <option disabled>Select a category</option>
-          <option value="Food & Drinks">Income</option>
-          <option value="Groceries">Expense</option>
+          <option disabled>Select a type</option>
+          <option value="Income">Income</option>
+          <option value="Expenses">Expense</option>
           <option value="Essentials">Essentials</option>
-          <option value="Entertainment">Investments</option>
+          <option value="Investments">Investments</option>
         </select>
         <select
           defaultValue="Select a type"
           {...register("category", { required: true })}
         >
-          <option disabled>Select a type</option>
+          <option disabled>Select a category</option>
           <option value="Food & Drinks">Food & Drinks</option>
           <option value="Groceries">Groceries</option>
           <option value="Entertainment">Entertainment</option>
