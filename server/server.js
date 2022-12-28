@@ -182,7 +182,7 @@ app.post("/user/transaction/new", auth, async (req, res) => {
             "Your transaction couldn't be added. Please make sure we've got the right data.",
         })
         .end();
-    }
+    } 
     res
       .status(200)
       .json({ message: "Your transaction has been added successfully." })

@@ -38,6 +38,11 @@
                 }
             }
         }
+        
+        .error {
+            color: $error;
+            font-size: 0.8rem;
+        }
 
         .btn-wrapper {
             display: grid;
@@ -46,7 +51,7 @@
 
             .cancel-btn {
                 background-color: white;
-                border: 1.5px solid $black;
+                border: 1px solid $black;
                 color: $black;
             }
         }
