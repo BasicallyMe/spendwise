@@ -24,7 +24,7 @@ textarea {
   padding-left: 8px;
   background-color: transparent;
   border: solid 1px $border-grey;
-  border-radius: 6px;
+  border-radius: $border-radius;
 
   &::placeholder {
     color: $content-grey;
@@ -38,12 +38,12 @@ textarea {
 .container .btn,
 button {
   font-family: Inter;
-  background-color: #000000;
-  color: white;
+  background-color: $black;
+  color: $white;
   height: 2.2rem;
   border: none;
   cursor: pointer;
-  border-radius: 6px;
+  border-radius: $border-radius;
   position: relative;
   transition: background-color 0.3s;
 

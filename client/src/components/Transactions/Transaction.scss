@@ -1,59 +1,78 @@
-@import './../../core/variables.scss';
+@import "./../../core/variables.scss";
 
 .section.new-transaction {
+  padding: 1rem;
 
-    padding: 1rem;
-    
-    form {
-        display: flex;
-        flex-direction: column;
-        width: 30%;
-        gap: 1rem;
-
-        .payment-method {
-            display: flex;
-            flex-direction: column;
-            gap: 1rem;
-
-            label {
-                border: 1.5px solid $border-grey;
-                padding-top: 0.5rem;
-                padding-bottom: 0.5rem;
-                border-radius: 6px;
-                display: inline-flex;
-                align-items: center;
-                background-color: $border-grey;
-
-                .card-number {
-                    width: 60%;
-                    font-size: 0.9rem;
-                    font-weight: 600;
-                }
-
-                .card-logo {
-                    text-align: right;
-                    width: 20%;
-                    display: inline-flex;
-                    justify-content: flex-end;
-                }
-            }
+  .form-container {
+    .response-container {
+        &.error {
+          background-color: $error;
         }
-        
-        .error {
-            color: $error;
+        &:not(.error) {
+          background-color: $confirmation;
+        }
+        display: inline-flex;
+        justify-content: center;
+        align-items: center;
+        padding: 0.5rem 0 0.5rem 0.5rem;
+        margin-bottom: 1rem;
+        border-radius: $border-radius;
+
+        .icon-container {
+            color: $white;
+            margin-right: 5px;
+            font-size: 1.1rem;
+        }
+
+        p {
             font-size: 0.8rem;
-        }
-
-        .btn-wrapper {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 1rem;
-
-            .cancel-btn {
-                background-color: white;
-                border: 1px solid $black;
-                color: $black;
-            }
+            padding: 0;
+            margin: 0;
+            color: $black;
         }
     }
+    width: 30%;
+  }
+
+  form {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    gap: 1rem;
+
+    .payment-method {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+
+      label {
+        display: inline-flex;
+        align-items: center;
+
+        .card-number {
+          width: 100%;
+          padding-left: 0.5rem;
+          font-size: 0.9rem;
+          font-weight: 600;
+        }
+      }
+    }
+
+    .error {
+      color: $error;
+      font-size: 0.8rem;
+    }
+
+    .btn-wrapper {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 1rem;
+
+      .cancel-btn {
+        background-color: transparent;
+        border: 1px solid $black;
+        color: $black;
+      }
+    }
+  }
 }

@@ -179,13 +179,17 @@ app.post("/user/transaction/new", auth, async (req, res) => {
         .status(400)
         .json({
           message:
-            "Your transaction couldn't be added. Please make sure we've got the right data.",
+            "Sorry, your transaction couldn't be added. Please make sure we've got the right data.",
+          status: false,
         })
         .end();
-    } 
+    }
     res
-      .status(200)
-      .json({ message: "Your transaction has been added successfully." })
+      .status(201)
+      .json({
+        message: "Great. Your transaction has been added successfully.",
+        status: true,
+      })
       .end();
   } catch (err) {
     console.log(err);
@@ -194,6 +198,7 @@ app.post("/user/transaction/new", auth, async (req, res) => {
       .json({
         message:
           "Your transaction couldn't be added. Please make sure we've got the right data.",
+        status: false,
       })
       .end();
   }
@@ -224,7 +229,7 @@ app.get("/user/transaction", auth, async (req, res) => {
     }
 
     res.status(200).json({ message: "Data queried successfully", data }).end();
-  } catch (err) {    
+  } catch (err) {
     console.log(err);
     res
       .status(400)

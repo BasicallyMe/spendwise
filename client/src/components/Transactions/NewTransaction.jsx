@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Icon } from "../Icons";
 import { useForm } from "react-hook-form";
+import { isEmpty } from "lodash";
 import "./Transaction.scss";
 
 const NewTransaction = () => {
@@ -13,7 +14,8 @@ const NewTransaction = () => {
 
   const selectedCategory = watch("type");
   const [disabled, setDisabled] = useState(false);
-  const [responseMessage, setResponseMessage] = useState("");
+  const [responseMessage, setResponseMessage] = useState({});
+  const [showSnackBar, setShowSnackBar] = useState(false);
 
   const categories = {
     Expenses: [
@@ -57,10 +59,23 @@ const NewTransaction = () => {
         body: JSON.stringify(data),
       });
       const response = await res.json();
-      console.log(response);
+      setResponseMessage(response);
+      openSnackBar();
+      setDisabled(false);
+      setTimeout(() => {
+        closeSnackBar();
+      }, 3000);
     } catch (err) {
       console.log(err);
     }
+  };
+
+  const openSnackBar = () => {
+    setShowSnackBar(true);
+  };
+
+  const closeSnackBar = () => {
+    setShowSnackBar(false);
   };
 
   const handleCancelClick = () => {
@@ -71,7 +86,22 @@ const NewTransaction = () => {
     <div className="new-transaction section">
       <h2>New transaction</h2>
       <div className="form-container">
-
+        {showSnackBar && (
+          <div
+            className={`response-container ${
+              !responseMessage.status && "error"
+            }`}
+          >
+            <div className="icon-container">
+              {responseMessage.status ? (
+                <Icon name="Check" />
+              ) : (
+                <Icon name="Error" />
+              )}
+            </div>
+            <p>{responseMessage.message}</p>
+          </div>
+        )}
         <form onSubmit={handleSubmit(onSubmit)}>
           <select
             defaultValue="Select a type"
@@ -114,16 +144,10 @@ const NewTransaction = () => {
             <label>
               <input type="radio" {...register("payment")} value="0124" />
               <span className="card-number">4628 4248 6249 0124</span>
-              <span className="card-logo">
-                <Icon name="Visa" />
-              </span>
             </label>
             <label>
               <input type="radio" {...register("payment")} value="0134" />
               <span className="card-number">6457 7685 7757 0134</span>
-              <span className="card-logo">
-                <Icon name="Mastercard" />
-              </span>
             </label>
           </div>
           <input

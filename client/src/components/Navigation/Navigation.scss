@@ -36,7 +36,7 @@
     a {
       text-decoration: none;
       color: black;
-      border-radius: 6px;
+      border-radius: $border-radius;
       width: 80%;
       list-style-type: none;
       font-size: 0.85rem;
@@ -82,7 +82,7 @@
       $size: 2.3rem;
       height: $size;
       min-width: $size;
-      border-radius: 10px;
+      border-radius: $border-radius;
       overflow: hidden;
 
       img {
