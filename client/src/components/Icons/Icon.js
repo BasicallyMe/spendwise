@@ -2,6 +2,7 @@ import React from "react";
 // import PropTypes from "prop-types";
 import { IoTicketOutline } from "react-icons/io5";
 import { BsCheckCircleFill, BsFillExclamationCircleFill } from "react-icons/bs";
+import { CiShoppingTag } from "react-icons/ci";
 import { Logo, Mastercard, Visa } from "./";
 
 const Icon = ({ name }) => {
@@ -12,12 +13,14 @@ const Icon = ({ name }) => {
       return <IoTicketOutline />;
     case "Mastercard":
       return <Mastercard />;
+    case "Shopping":
+      return <CiShoppingTag />;
     case "Visa":
       return <Visa />;
-    case "Check": 
-      return <BsCheckCircleFill />
-    case "Error": 
-      return <BsFillExclamationCircleFill />
+    case "Check":
+      return <BsCheckCircleFill />;
+    case "Error":
+      return <BsFillExclamationCircleFill />;
     default:
       return null;
   }

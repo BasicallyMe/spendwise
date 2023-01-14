@@ -51,7 +51,7 @@ const SignIn = () => {
     if (status === 200) {
       setSignedIn(true);
       setTimeout(() => {
-        navigate("/transactions/new", { replace: true });
+        navigate("/", { replace: true });
       }, 2000);
     }
   }

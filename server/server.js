@@ -118,7 +118,7 @@ app.post("/user/signin", async (req, res) => {
           return res
             .json({
               message:
-                "The wizard couldn't recognise you. Please make sure we've got your details right.",
+                "There seems to be a problem at our end. Please make sure we've got your details right.",
             })
             .end();
       }
@@ -132,9 +132,11 @@ app.post("/user/signin", async (req, res) => {
       expiresIn: "2h",
     });
 
-    res.cookie("registered", user.email, {
-      maxAge: 60 * 60 * 1000,
-    });
+    // res.cookie("registered", user.email, {
+    //   maxAge: 60 * 60 * 1000,
+    // });
+
+    res.cookie("registered", user.email);
 
     res.cookie("uid", password, {
       maxAge: 60 * 60 * 1000,
@@ -150,7 +152,7 @@ app.post("/user/signin", async (req, res) => {
       .status(400)
       .json({
         message:
-          "Sorry, we couldn't sign you in. Please make sure we've got your details right.",
+          "Sorry, we couldn't sign you in. Please make sure we've got your details right. dfadf",
       })
       .end();
   }

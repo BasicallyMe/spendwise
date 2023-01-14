@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Icon } from "../Icons";
 import { useForm } from "react-hook-form";
-import { isEmpty } from "lodash";
+import { useNavigate } from "react-router-dom";
 import "./Transaction.scss";
 
 const NewTransaction = () => {
@@ -11,7 +11,7 @@ const NewTransaction = () => {
     watch,
     formState: { errors },
   } = useForm();
-
+  const navigate = useNavigate();
   const selectedCategory = watch("type");
   const [disabled, setDisabled] = useState(false);
   const [responseMessage, setResponseMessage] = useState({});
@@ -22,7 +22,6 @@ const NewTransaction = () => {
       "Shopping",
       "Transportation",
       "Food & Drinks",
-      "Gifts",
       "Entertainment",
       "Others",
     ],
@@ -30,7 +29,7 @@ const NewTransaction = () => {
       "Groceries",
       "Transportation",
       "Healthcare",
-      "Bills & Subscription",
+      "Personal care",
       "Utilities",
       "Supplies",
       "Debt",
@@ -41,7 +40,6 @@ const NewTransaction = () => {
       "SIPs",
       "Stocks & Shares",
       "Bonds",
-      "ETFs",
       "Others",
     ],
   };
@@ -80,6 +78,7 @@ const NewTransaction = () => {
 
   const handleCancelClick = () => {
     console.log("handle cancel click");
+    navigate(-1);
   };
 
   return (
