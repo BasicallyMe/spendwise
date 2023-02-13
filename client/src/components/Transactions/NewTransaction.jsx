@@ -82,7 +82,7 @@ const NewTransaction = () => {
   };
 
   return (
-    <div className="new-transaction section">
+    <div className="new-transaction">
       <h2>New transaction</h2>
       <div className="form-container">
         {showSnackBar && (

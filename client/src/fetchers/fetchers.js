@@ -16,4 +16,17 @@ async function getUserData() {
 //   }
 }
 
-export { getUserData }
+async function getTransactions() {
+  try {
+    const res = await fetch("http://localhost:5000/user/transaction", {
+      method: "GET",
+      credentials: "include",
+    });
+    const response = await res.json();
+    return response;
+  } catch (err) {
+    console.log(err);
+  }
+}
+
+export { getUserData, getTransactions }

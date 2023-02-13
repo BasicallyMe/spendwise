@@ -12,13 +12,12 @@ import { getUserData } from "../../fetchers/fetchers";
 import { isEqual } from "lodash";
 import avatar from "../../assets/avatar.jpg";
 import { Icon } from "../Icons";
-import { useQuery, useQueryClient } from "@tanstack/react-query";
+import { useQuery } from "@tanstack/react-query";
 import "./Navigation.scss";
 
 export default function Navigation() {
   const navigate = useNavigate();
   const { user, setUser } = useBearStore();
-  const queryClient = useQueryClient();
 
   const { data, status, isSuccess } = useQuery(["user", "data"], getUserData);
 

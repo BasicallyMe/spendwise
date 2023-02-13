@@ -1,5 +1,5 @@
 import React from "react";
-import { Outlet, redirect, useNavigate } from "react-router-dom";
+import { Outlet, redirect } from "react-router-dom";
 import { Navigation } from "./components";
 import './App.scss';
 import { checkRegistered, checkLoggedIn } from "./core/container";

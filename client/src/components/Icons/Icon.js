@@ -2,7 +2,7 @@ import React from "react";
 // import PropTypes from "prop-types";
 import { IoTicketOutline } from "react-icons/io5";
 import { BsCheckCircleFill, BsFillExclamationCircleFill } from "react-icons/bs";
-import { CiShoppingTag } from "react-icons/ci";
+import { CiShoppingTag, CiSquareQuestion } from "react-icons/ci";
 import { Logo, Mastercard, Visa } from "./";
 
 const Icon = ({ name }) => {
@@ -22,7 +22,7 @@ const Icon = ({ name }) => {
     case "Error":
       return <BsFillExclamationCircleFill />;
     default:
-      return null;
+      return <CiSquareQuestion />;
   }
 };
 

@@ -152,7 +152,7 @@ app.post("/user/signin", async (req, res) => {
       .status(400)
       .json({
         message:
-          "Sorry, we couldn't sign you in. Please make sure we've got your details right. dfadf",
+          "Sorry, we couldn't sign you in. Please make sure we've got your details right.",
       })
       .end();
   }

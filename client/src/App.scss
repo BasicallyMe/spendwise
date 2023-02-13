@@ -8,16 +8,16 @@
   overflow-y: hidden;
   box-sizing: border-box;
 }
+
 .section {
   overflow-y: auto;
+
+  .section-header {
+    font-size: 0.7rem;
+  }
 }
 
-.navigation {
-  height: 100%;
-  max-width: 13rem;
-}
-
-.container input,
+input,
 select,
 textarea {
   height: 2rem;
@@ -31,11 +31,24 @@ textarea {
   }
 }
 
-.container select {
+select {
   height: 2.3rem;
 }
 
-.container .btn,
+.navigation {
+  height: 100%;
+  max-width: 13rem;
+}
+
+h1,
+h2,
+h3,
+h4 {
+  margin: 0;
+  padding: 0;
+}
+
+.btn,
 button {
   font-family: Inter;
   background-color: $black;
@@ -52,12 +65,8 @@ button {
   }
 
   &:disabled {
+    border: none;
     background-color: $grey;
     pointer-events: none;
   }
-}
-
-h4 {
-  margin: 0;
-  padding: 0;
 }
