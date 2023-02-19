@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import isEqual from "lodash/isEqual";
 import isEmpty from "lodash/isEmpty";
 import Dropdown from "../Dropdown/Dropdown";
+import isToday from "date-fns/isToday";
+import parseISO from "date-fns/parseISO";
 import { Icon } from "../Icons";
 import { getTransactions } from "../../fetchers/fetchers";
 import { useQuery } from "@tanstack/react-query";
@@ -28,9 +30,9 @@ export default function Transactions() {
     }
   }
 
-  if (!isEmpty(items)) {
-    console.log(items);
-  }
+  // if (!isEmpty(items)) {
+  //   console.log(isToday(parseISO("2023-02-19")));
+  // }
 
   return (
     <div className="transaction">
@@ -56,7 +58,9 @@ export default function Transactions() {
                     <div className="item-details">
                       <div className="category">
                         <h4>{item.category}</h4>
-                        <span className="date">{item.date}</span>
+                        <span className="date">
+                          {isToday(parseISO(item.date)) ? "Today" : item.date}
+                        </span>
                       </div>
                       <div className="amount">
                         <h4>{item.amount}</h4>
