@@ -52,10 +52,6 @@ const router = createBrowserRouter([
         path: "transactions/new",
         element: <NewTransaction />,
       },
-      {
-        path: "dashboard",
-        element: <Dashboard />,
-      },
     ],
     errorElement: <ErrorPage />,
   },

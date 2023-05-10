@@ -55,7 +55,7 @@ export default function Transactions() {
                     <div className="icon">
                       <Icon name={item.category} />
                     </div>
-                    <div className="item-details">
+                    {/* <div className="item-details">
                       <div className="category">
                         <h4>{item.category}</h4>
                         <span className="date">
@@ -66,7 +66,13 @@ export default function Transactions() {
                         <h4>{item.amount}</h4>
                         <span className="type">{item.type}</span>
                       </div>
-                    </div>
+                    </div> */}
+                    <h4>{item.category}</h4>
+                    <span className="date">
+                      {isToday(parseISO(item.date)) ? "Today" : item.date}
+                    </span>
+                    <span className="type">{item.type}</span>
+                    <span className="amount">{item.amount}</span>
                   </li>
                 ))}
               </ul>

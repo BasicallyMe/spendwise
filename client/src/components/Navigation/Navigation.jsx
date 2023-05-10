@@ -57,13 +57,6 @@ export default function Navigation() {
           className={({ isActive }) => (isActive ? "home" : null)}
         >
           <FiHome />
-          Home
-        </NavLink>
-        <NavLink
-          to={`dashboard`}
-          className={({ isActive }) => (isActive ? "active" : null)}
-        >
-          <FiGrid />
           Dashboard
         </NavLink>
         <NavLink

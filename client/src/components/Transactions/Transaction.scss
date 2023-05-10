@@ -145,7 +145,7 @@
   }
 
   .transaction-list {
-    width: 50%;
+    // width: 50%;
     .list-items {
       list-style-type: none;
       margin: 0;
@@ -154,11 +154,12 @@
       .item {
         display: flex;
         flex-direction: row;
-        background-color: white;
+        justify-content: space-between;
+        align-items: center;
         margin-bottom: 1rem;
         padding: 0.8rem 1rem;
-        border-radius: $border-radius;
-        box-shadow: $box-shadow-1;
+        // border-radius: $border-radius;
+        // box-shadow: $box-shadow-1;
 
         .icon {
           background-color: white;
@@ -174,34 +175,7 @@
             width: 60%;
             object-fit: contain;
           }
-        }
-
-        .item-details {
-          display: flex;
-          flex-direction: row;
-          justify-content: space-between;
-          width: calc(100% - 2.5rem);
-          margin-left: 1rem;
-
-          .category {
-            h4 {
-              font-weight: 600;
-            }
-            .date {
-              font-size: 0.7rem;
-              color: $dark-grey;
-            }
-          }
-          .amount {
-            text-align: right;
-            
-            .type {
-              color: $dark-grey;
-              font-size: 0.7rem;
-            }
-          }
-        }
-        
+        }        
       }
     }
   }
