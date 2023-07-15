@@ -1,6 +1,0 @@
-/client/node_modules
-/client/.parcel-cache
-/client/dist
-/server/node_modules
-/server/.env
-/node_modules
