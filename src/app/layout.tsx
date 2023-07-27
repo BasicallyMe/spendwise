@@ -1,11 +1,14 @@
+"use client";
 // Metadata object is used to set Metadata for the whole page
 import { Metadata } from "next";
 
+import { AuthContextProvider } from "context/AuthContext";
+
 // import FontSource font
-import '@fontsource-variable/inter';
+import "@fontsource-variable/inter";
 
 // importing global styles where tailwind classes are injected
-import '../styles/global.css';
+import "../styles/global.css";
 
 export const metadata: Metadata = {
   title: "Expense Tracker",
@@ -20,7 +23,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className="">
-        {children}
+        <AuthContextProvider>{children}</AuthContextProvider>
       </body>
     </html>
   );

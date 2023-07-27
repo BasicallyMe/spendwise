@@ -1,28 +1,51 @@
 "use client"; // since all components are essentially rendered as server components, it prevents from using event handlers
 import Icon from "../../../../public/icons/icons";
-import { newUser } from '../../../firebase/auth';
+import { newUser } from "../../../firebase/auth";
+import { createUserDatabase } from "../../../firebase/firestore";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
+
+interface UserFormData {
+  firstName: string;
+  lastName: string;
+  email: string;
+  password: string;
+}
 
 interface UserDataType {
-    firstName: string;
-    lastName: string;
-    email: string;
-    password: string;
+  firstName: string;
+  lastName: string;
+  uid: string;
+  email: string;
 }
 
 export default function SignUp() {
+  const router = useRouter();
   const handleSubmit = async (event) => {
     event.preventDefault();
-    let data: UserDataType = {
+    let data: UserFormData = {
       firstName: event.target.first.value,
       lastName: event.target.last.value,
       email: event.target.email.value,
       password: event.target.password.value,
     };
 
-    const user = await newUser(data);
-    console.log(user);
-    
+    const response = await newUser(data);
+    if (response.status === "success") {
+      let user: UserDataType = {
+        firstName: data.firstName,
+        lastName: data.lastName,
+        email: data.email,
+        uid: response.user.uid,
+      };
+      const dbCreated = await createUserDatabase(user);
+      console.log(dbCreated);
+      // router.push("/auth/signin");
+      return null;
+    }
+    if (response.status === "error") {
+      console.log("error", response.message);
+    }
   };
 
   return (
