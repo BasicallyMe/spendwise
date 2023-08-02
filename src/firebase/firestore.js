@@ -1,10 +1,9 @@
-import db from "./firebase";
+import { db } from "./firebase";
 import { addDoc, collection, doc, setDoc } from "firebase/firestore";
 
 export async function createUserDatabase(user) {
   try {
-    const docRef = await addDoc(collection(db, "users"), user);
-    console.log(docRef);
+    await setDoc(doc(db, "users", user.uid), user);
     return true;
   } catch (error) {
     console.log(error);

@@ -4,10 +4,20 @@ import {
   signInWithEmailAndPassword,
   createUserWithEmailAndPassword,
   sendEmailVerification,
-  updateProfile
+  updateProfile,
+  signOut
 } from "firebase/auth";
 
 const provider = new GoogleAuthProvider();
+
+export async function signOutUser() {
+  try {
+    await signOut(auth)
+    return true;
+  } catch (error) {
+    return false;
+  }
+}
 
 export async function signInWithEmail(userObj) {
   const { email, password } = userObj;

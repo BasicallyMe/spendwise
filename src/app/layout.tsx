@@ -22,8 +22,10 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className="">
-        <AuthContextProvider>{children}</AuthContextProvider>
+      <body className="h-screen">
+        <AuthContextProvider>
+          {children}
+        </AuthContextProvider>
       </body>
     </html>
   );

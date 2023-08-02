@@ -23,7 +23,7 @@ export default function SignIn() {
       };
       const response = await signInWithEmail(data);
       if (response.status === 'success') {
-        router.push("/");
+        router.push("/user/dashboard");
       } else {
         console.log(response.message);
       }

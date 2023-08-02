@@ -1,4 +1,5 @@
 "use client"; // since all components are essentially rendered as server components, it prevents from using event handlers
+import { useState } from "react";
 import Icon from "../../../../public/icons/icons";
 import { newUser } from "../../../firebase/auth";
 import { createUserDatabase } from "../../../firebase/firestore";
@@ -20,9 +21,11 @@ interface UserDataType {
 }
 
 export default function SignUp() {
+  const [disableBtn, setDisableBtn] = useState(false);
   const router = useRouter();
   const handleSubmit = async (event) => {
     event.preventDefault();
+    setDisableBtn(true);
     let data: UserFormData = {
       firstName: event.target.first.value,
       lastName: event.target.last.value,
@@ -38,9 +41,8 @@ export default function SignUp() {
         email: data.email,
         uid: response.user.uid,
       };
-      const dbCreated = await createUserDatabase(user);
-      console.log(dbCreated);
-      // router.push("/auth/signin");
+      await createUserDatabase(user);
+      router.push("/user/dashboard");
       return null;
     }
     if (response.status === "error") {
@@ -114,6 +116,7 @@ export default function SignUp() {
               type="email"
               id="email"
               name="email"
+              required
               placeholder="janedoe@example.com"
             />
           </div>
@@ -126,12 +129,16 @@ export default function SignUp() {
               type="password"
               id="password"
               name="password"
+              required
               placeholder="*************"
             />
           </div>
           <button
             type="submit"
-            className="bg-blue-500 text-white text-sm w-full py-2 rounded my-6 hover:bg-blue-600"
+            disabled={disableBtn}
+            className={`${
+              disableBtn ? "bg-slate-400" : "bg-blue-500"
+            } text-white text-sm w-full py-2 rounded my-6 ${!disableBtn && 'hover:bg-blue-600'}`}
           >
             Sign Up
           </button>
