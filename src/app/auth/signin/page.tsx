@@ -34,7 +34,7 @@ export default function SignIn() {
 
   return (
     <div className="h-full w-4/5">
-      <h1 className="text-3xl font-semibold">Sign in to your account</h1>
+      <h1 className="text-3xl font-semibold">Welcome back</h1>
       <div className="mt-8">
         <p className="text-sm text-slate-400">
           Sign in using one of the providers below
