@@ -1,10 +1,11 @@
 "use client"; // since all components are essentially rendered as server components, it prevents from using event handlers
+
 import { useState } from "react";
-import Icon from "../../../../public/icons/icons";
-import { newUser } from "../../../firebase/auth";
-import { createUserDatabase } from "../../../firebase/firestore";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
+import { newUser } from "../../../firebase/auth";
+import Icon from "../../../../public/icons/icons";
+import { createUserDatabase } from "../../../firebase/firestore";
+import VerifyPage from "./VerifyPage";
 
 interface UserFormData {
   firstName: string;
@@ -22,14 +23,14 @@ interface UserDataType {
 
 export default function SignUp() {
   const [disableBtn, setDisableBtn] = useState(false);
-  const router = useRouter();
+  const [showVerifyPage, setShowVerifyPage] = useState(false);
   const handleSubmit = async (event) => {
     event.preventDefault();
     setDisableBtn(true);
     let data: UserFormData = {
-      firstName: event.target.first.value,
-      lastName: event.target.last.value,
-      email: event.target.email.value,
+      firstName: event.target.first.value.trim(),
+      lastName: event.target.last.value.trim(),
+      email: event.target.email.value.trim(),
       password: event.target.password.value,
     };
 
@@ -42,13 +43,19 @@ export default function SignUp() {
         uid: response.user.uid,
       };
       await createUserDatabase(user);
-      router.push("/user/dashboard");
+      setShowVerifyPage(true);
       return null;
     }
     if (response.status === "error") {
       console.log("error", response.message);
     }
   };
+
+  if (showVerifyPage) {
+    return (
+      <VerifyPage />
+    )
+  }
 
   return (
     <div className="h-full w-4/5">
@@ -140,7 +147,7 @@ export default function SignUp() {
               disableBtn ? "bg-slate-400" : "bg-blue-500"
             } text-white text-sm w-full py-2 rounded my-6 ${!disableBtn && 'hover:bg-blue-600'}`}
           >
-            Sign Up
+            Create your account
           </button>
         </form>
         <p className="text-sm">

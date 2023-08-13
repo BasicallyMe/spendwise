@@ -5,6 +5,7 @@ import Icon from "../../../../public/icons/icons";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { signInWithEmail } from "../../../firebase/auth";
+import { AlertCircle } from "lucide-react";
 
 interface UserDataType {
   email: string;
@@ -12,24 +13,31 @@ interface UserDataType {
 }
 
 export default function SignIn() {
+  const [disableBtn, setDisableBtn] = useState(false);
   const router = useRouter();
-  const [error, setError] = useState({});
+  const [errorMessage, setErrorMessage] = useState("");
+  const [showError, setShowError] = useState(false);
   const handleSubmit = async (event) => {
-    try {
-      event.preventDefault();
-      const data: UserDataType = {
-        email: event.target.email.value,
-        password: event.target.password.value,
-      };
-      const response = await signInWithEmail(data);
-      if (response.status === 'success') {
+    setDisableBtn(true);
+    event.preventDefault();
+    const data: UserDataType = {
+      email: event.target.email.value,
+      password: event.target.password.value,
+    };
+    const response = await signInWithEmail(data);
+    console.log(response);
+    if (response.status === "success") {
+      if (response.verified) {
         router.push("/user/dashboard");
       } else {
-        console.log(response.message);
+        setErrorMessage("Please verify your email to sign in to your account.");
+        setShowError(true);
       }
-    } catch (error) {
-      console.log(error.code);
+    } else {
+      setErrorMessage(response.message)
+      setShowError(true);
     }
+    setDisableBtn(false);
   };
 
   return (
@@ -60,6 +68,12 @@ export default function SignIn() {
         <div className="bg-slate-200 grow h-px"></div>
       </div>
       <div className="">
+        {showError && (
+          <div className="flex flex-row items-center py-2 px-2 rounded-sm my-4 bg-orange-400 text-white">
+            <AlertCircle size={20} />
+            <p className="text-sm ml-2">{errorMessage}</p>
+          </div>
+        )}
         <form onSubmit={handleSubmit}>
           <div className="flex flex-col mt-4">
             <label htmlFor="email" className="text-sm font-medium mb-1">
@@ -70,6 +84,8 @@ export default function SignIn() {
               type="email"
               id="email"
               name="email"
+              required
+              onChange={() => setShowError(false)}
               placeholder="janedoe@example.com"
             />
           </div>
@@ -81,13 +97,20 @@ export default function SignIn() {
               className="border rounded text-xs py-2 pl-1 focus:border-slate-200 focus:border-2 focus-visible:outline-0"
               type="password"
               id="password"
+              onChange={() => setShowError(false)}
+              required
               name="password"
               placeholder="*************"
             />
           </div>
           <button
             type="submit"
-            className="bg-blue-500 text-white text-sm w-full py-2 rounded my-6 hover:bg-blue-600"
+            disabled={disableBtn}
+            className={`${
+              disableBtn ? "bg-slate-400" : "bg-blue-500"
+            } text-white text-sm w-full py-2 rounded my-6 ${
+              !disableBtn && "hover:bg-blue-600"
+            }`}
           >
             Sign In
           </button>

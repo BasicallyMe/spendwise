@@ -21,7 +21,9 @@
   "homepage": "https://github.com/BasicallyMe/expense-tracker-app#readme",
   "dependencies": {
     "@fontsource-variable/inter": "^5.0.5",
+    "date-fns": "^2.30.0",
     "firebase": "^10.0.0",
+    "lucide-react": "^0.265.0",
     "next": "^13.4.10",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",

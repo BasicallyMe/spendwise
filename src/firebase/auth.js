@@ -28,11 +28,7 @@ export async function signInWithEmail(userObj) {
       password
     );
     const user = await userCredentials.user;
-    if (user.emailVerified) {
-      return { user, status: "success" }
-    } else {
-      return { status: "error", message: "Your email address isn't verified" }
-    }
+    return { status: "success", verified: user.emailVerified };
   } catch (error) {
     let message = "";
     console.log("error code", error.code);
@@ -43,7 +39,7 @@ export async function signInWithEmail(userObj) {
         break;
       case "auth/wrong-password":
         message =
-          "Your password might be incorrect. Please try a different one";
+          "Your password might be incorrect. Please try a different one.";
         break;
       default:
         message = "We couldn't sign you in. Please try again";
