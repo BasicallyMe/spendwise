@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { signOutUser } from "../../../firebase/auth";
+import { signOutUser } from "backend/auth";
 import { useRouter } from "next/navigation";
 
 export default function NavSideBar() {

@@ -2,9 +2,10 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import { newUser } from "../../../firebase/auth";
+import { newUser } from "backend/auth";
+import { AlertCircle } from "lucide-react";
 import Icon from "../../../../public/icons/icons";
-import { createUserDatabase } from "../../../firebase/firestore";
+import { createUserDatabase } from "backend/firestore";
 import VerifyPage from "./VerifyPage";
 
 interface UserFormData {
@@ -24,6 +25,8 @@ interface UserDataType {
 export default function SignUp() {
   const [disableBtn, setDisableBtn] = useState(false);
   const [showVerifyPage, setShowVerifyPage] = useState(false);
+  const [showError, setShowError] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
   const handleSubmit = async (event) => {
     event.preventDefault();
     setDisableBtn(true);
@@ -47,14 +50,14 @@ export default function SignUp() {
       return null;
     }
     if (response.status === "error") {
-      console.log("error", response.message);
+      // console.log("error", response.message);
+      setErrorMessage(response.message);
+      setShowError(true);
     }
   };
 
   if (showVerifyPage) {
-    return (
-      <VerifyPage />
-    )
+    return <VerifyPage />;
   }
 
   return (
@@ -84,7 +87,13 @@ export default function SignUp() {
         <p className="px-2 text-sm text-slate-400">or</p>
         <div className="bg-slate-200 grow h-px"></div>
       </div>
-      <div className="py-4">
+      <div className="mt-2">
+        {showError && (
+          <div className="flex flex-row items-center py-2 px-2 rounded-sm my-4 bg-orange-400 text-white">
+            <AlertCircle size={20} />
+            <p className="text-sm ml-2">{errorMessage}</p>
+          </div>
+        )}
         <form onSubmit={handleSubmit}>
           <fieldset className="flex flex-row">
             <div className="flex flex-col grow mr-3">
@@ -124,6 +133,7 @@ export default function SignUp() {
               id="email"
               name="email"
               required
+              onChange={() => setShowError(false)}
               placeholder="janedoe@example.com"
             />
           </div>
@@ -136,6 +146,7 @@ export default function SignUp() {
               type="password"
               id="password"
               name="password"
+              onChange={() => setShowError(false)}
               required
               placeholder="*************"
             />
@@ -145,7 +156,9 @@ export default function SignUp() {
             disabled={disableBtn}
             className={`${
               disableBtn ? "bg-slate-400" : "bg-blue-500"
-            } text-white text-sm w-full py-2 rounded my-6 ${!disableBtn && 'hover:bg-blue-600'}`}
+            } text-white text-sm w-full py-2 rounded my-6 ${
+              !disableBtn && "hover:bg-blue-600"
+            }`}
           >
             Create your account
           </button>

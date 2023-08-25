@@ -4,7 +4,7 @@ import { useState } from "react";
 import Icon from "../../../../public/icons/icons";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { signInWithEmail } from "../../../firebase/auth";
+import { signInWithEmail } from "backend/auth";
 import { AlertCircle } from "lucide-react";
 
 interface UserDataType {

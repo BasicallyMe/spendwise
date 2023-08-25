@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { useForm, SubmitHandler } from "react-hook-form";
-import { addNewTransaction } from "../../../firebase/firestore";
+import { addNewTransaction } from "backend/firestore";
 import { useRouter } from "next/navigation";
 
 type Inputs = {
@@ -50,7 +50,7 @@ export default function AddTransaction() {
 
   const onSubmit: SubmitHandler<Inputs> = async (data) => {
     const response = await addNewTransaction(data);
-    console.log('👀response', response);
+    // console.log('👀response', response);
   };
   return (
     <div className="h-full">
@@ -61,6 +61,7 @@ export default function AddTransaction() {
         <select
           id="type"
           name="type"
+          defaultValue=""
           {...register("type", { required: true })}
           className="border px-2 py-3 rounded-md text-sm"
         >
@@ -90,23 +91,25 @@ export default function AddTransaction() {
             This field is required
           </span>
         )}
-        {watchType !== "" && watchType !== "income" && (
-          <select
-            id="category"
-            name="category"
-            {...register("category", { required: true })}
-            className="border px-2 py-3 rounded-md text-sm mt-2"
-          >
-            <option value="" selected disabled>
-              Choose a category
+        <select
+          id="category"
+          name="category"
+          {...register("category", { required: true })}
+          className="border px-2 py-3 rounded-md text-sm mt-2"
+          defaultValue=""
+          disabled={watchType === "" || watchType === 'income'}
+        >
+          <option value="" selected disabled>
+            Choose a category
+          </option>
+          {selectedCategory.map((item, index) => (
+            <option key={item} value={item} className="capitalize">
+              {item}
             </option>
-            {selectedCategory.map((item, index) => (
-              <option value={item} className="capitalize">
-                {item}
-              </option>
-            ))}
-          </select>
-        )}
+          ))}
+        </select>
+        {/* {watchType !== "" && watchType !== "income" && (
+        )} */}
         {errors.category && (
           <span className="text-xs text-red-500 my-1 font-medium">
             This field is required
@@ -135,7 +138,10 @@ export default function AddTransaction() {
           type="submit"
           className="text-sm py-2 px-3 mt-3 text-white bg-blue-600 rounded-md cursor-pointer"
         />
-        <button onClick={() => router.back()} className="text-sm py-2 px-3 mt-3 text-blue-600 border border-blue-600 rounded-md cursor-pointer">
+        <button
+          onClick={() => router.back()}
+          className="text-sm py-2 px-3 mt-3 text-blue-600 border border-blue-600 rounded-md cursor-pointer"
+        >
           Cancel
         </button>
       </form>

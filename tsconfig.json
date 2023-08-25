@@ -29,7 +29,7 @@
     ".next/types/**/*.ts",
     "**/*.ts",
     "**/*.tsx"
-, "src/firebase/firebase.js", "public/icons/icons.tsx"  ],
+, "src/backend/firebase.js", "public/icons/icons.tsx"  ],
   "exclude": [
     "node_modules"
   ]
