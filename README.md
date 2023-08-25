@@ -1,7 +1,5 @@
 # Expense Tracker App
 
-![Expense Tracker App](public/images/under_construction.png)
-
 Track your expenses with ease using the Expense Tracker App. This app helps you manage your finances by providing a simple and intuitive interface to record and categorize your expenses.
 
 ## Table of Contents
@@ -46,9 +44,8 @@ The following technologies were used in the development of this app:
 
 ## Credits
 
-This app was developed by [Your Name](https://github.com/yourusername). Special thanks to the following resources:
+Designed and Developed by [Abajit Dey](https://github.com/BasicallyMe). Special thanks to the following resources:
 
-- Icons by [FontAwesome](https://fontawesome.com/)
-- Charting Library: [Chart.js](https://www.chartjs.org/)
+- Illustrations by [Drawkit](https://drawkit.com/)
 
-If you have any questions, feedback, or suggestions, feel free to contact me at [your.email@example.com](mailto:your.email@example.com).
+If you have any questions, feedback, or suggestions, feel free to contact me at [abajitdey@zohomail.in](mailto:abajitdey@zohomail.in).
