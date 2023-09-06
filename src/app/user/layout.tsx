@@ -1,6 +1,7 @@
-"use client"
+"use client";
 import React, { useEffect } from "react";
 import { useAuthContext } from "context/AuthContext";
+import { TransactionContextProvider } from "context/TransactionContext";
 import { useRouter } from "next/navigation";
 import NavSideBar from "./components/NavSideBar";
 
@@ -13,15 +14,17 @@ export default function AuthLayout({
   const router = useRouter();
 
   useEffect(() => {
-    if (user === null) router.replace('/auth/signin')
-  }, [])
+    if (user === null) router.replace("/auth/signin");
+  }, []);
 
   return (
     <main className="flex flex-row h-full">
-        <NavSideBar />
-        <div className="w-full">
-            {children}
-        </div>
+      <NavSideBar />
+      <div className="w-full">
+        <TransactionContextProvider user={user}>
+          {children}
+        </TransactionContextProvider>
+      </div>
     </main>
   );
 }
