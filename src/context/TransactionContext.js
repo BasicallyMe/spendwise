@@ -10,7 +10,6 @@ export function useTransactionContext() {
 
 export function TransactionContextProvider({ children, user }) {
   const [transactions, setTransactions] = useState([]);
-  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     if (user) {
@@ -31,14 +30,8 @@ export function TransactionContextProvider({ children, user }) {
     }
   }, [user]);
 
-  useEffect(() => {
-    if (transactions.length !== 0) {
-      setLoading(false);
-    }
-  }, [transactions]);
-
   return (
-    <TransactionContext.Provider value={{ transactions, loading }}>
+    <TransactionContext.Provider value={{ transactions }}>
       {children}
     </TransactionContext.Provider>
   );

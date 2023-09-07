@@ -6,10 +6,12 @@ import { PenSquare, Trash2 } from "lucide-react";
 import { useTransactionContext } from "context/TransactionContext";
 import { getMonthString, months } from "utils/helper";
 import { getMonth } from "date-fns";
+import { useStore } from 'utils/store';
 
 export default function Transactions() {
-  const { transactions, loading } = useTransactionContext();
-  const [currentMonth, setCurrentMonth] = useState(getMonth(new Date()));
+  const { transactions } = useTransactionContext();
+  const [loading, setLoading] = useState(false);
+  const [currentMonth, setCurrentMonth] = useStore((state) => [state.currentMonth, state.setCurrentMonth]);
   const [filteredTransactions, setFilteredTransactions] = useState([]);
 
   // Update filteredTransactions whenever currentMonth changes
@@ -25,13 +27,13 @@ export default function Transactions() {
     setCurrentMonth(selectedMonthIndex); // Update currentMonth locally
   };
 
-  if (loading) {
-    return (
-      <div className="w-full h-full relative flex flex-col justify-center items-center">
-        <h2 className="text-3xl font-semibold text-slate-400">Loading...</h2>
-      </div>
-    );
-  }
+  // if (loading) {
+  //   return (
+  //     <div className="w-full h-full relative flex flex-col justify-center items-center">
+  //       <h2 className="text-3xl font-semibold text-slate-400">Loading...</h2>
+  //     </div>
+  //   );
+  // }
 
   // if (transactions.length === 0) {
   //   return (
@@ -55,7 +57,7 @@ export default function Transactions() {
 
   return (
     <div className="w-full h-full relative">
-      <div className="flex flex-row justify-between px-3 py-3">
+      <div className="flex flex-row justify-between px-3 py-3 my-4">
         <h2>Transactions</h2>
         <div className="">
           <span className="mr-3 text-sm text-slate-400">
@@ -74,7 +76,7 @@ export default function Transactions() {
             Expenses: <span className="text-slate-600">1000</span>
           </span>
         </div>
-        <select value={currentMonth} onChange={handleMonthChange}>
+        <select className="text-sm" value={currentMonth} onChange={handleMonthChange}>
           {months.map((month, index) => (
             <option key={index.toString()} value={index}>
               {month}
