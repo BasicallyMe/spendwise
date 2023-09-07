@@ -6,12 +6,16 @@ import { PenSquare, Trash2 } from "lucide-react";
 import { useTransactionContext } from "context/TransactionContext";
 import { getMonthString, months } from "utils/helper";
 import { getMonth } from "date-fns";
-import { useStore } from 'utils/store';
+import { useStore } from "utils/store";
+import LoadingSkeleton from "./loadingSkeleton";
 
 export default function Transactions() {
   const { transactions } = useTransactionContext();
   const [loading, setLoading] = useState(false);
-  const [currentMonth, setCurrentMonth] = useStore((state) => [state.currentMonth, state.setCurrentMonth]);
+  const [currentMonth, setCurrentMonth] = useStore((state) => [
+    state.currentMonth,
+    state.setCurrentMonth,
+  ]);
   const [filteredTransactions, setFilteredTransactions] = useState([]);
 
   // Update filteredTransactions whenever currentMonth changes
@@ -27,62 +31,44 @@ export default function Transactions() {
     setCurrentMonth(selectedMonthIndex); // Update currentMonth locally
   };
 
-  // if (loading) {
-  //   return (
-  //     <div className="w-full h-full relative flex flex-col justify-center items-center">
-  //       <h2 className="text-3xl font-semibold text-slate-400">Loading...</h2>
-  //     </div>
-  //   );
-  // }
-
-  // if (transactions.length === 0) {
-  //   return (
-  //     <div className="w-full h-full relative flex flex-col justify-center items-center">
-  //       <Image
-  //         src="/images/transactions.png"
-  //         alt="Placeholder"
-  //         width="300"
-  //         height="300"
-  //       />
-  //       <h2 className="text-2xl font-semibold mb-2">
-  //         Woah! You haven't spent anything
-  //       </h2>
-  //       <p className="text-sm text-slate-400">
-  //         Looks like you haven't recorded any expense yet. Try adding a few
-  //         expenses first.
-  //       </p>
-  //     </div>
-  //   );
-  // }
+  if (loading) {
+    return <LoadingSkeleton />;
+  }
 
   return (
     <div className="w-full h-full relative">
-      <div className="flex flex-row justify-between px-3 py-3 my-4">
-        <h2>Transactions</h2>
-        <div className="">
-          <span className="mr-3 text-sm text-slate-400">
-            Month: <span className="text-slate-600">August</span>
+      <div className="flex flex-row justify-end px-3 py-3 my-4">
+        <div className="flex flex-wrap gap-1">
+          <span className="mr-3 text-sm p-2 rounded-md text-white bg-blue-400">
+            Month:{" "}
+            <span className="text-slate-800">
+              {getMonthString(currentMonth)}
+            </span>
           </span>
-          <span className="mr-3 text-sm text-slate-400">
-            Income: <span className="text-slate-600">1000</span>
+          <span className="mr-3 text-sm text-white bg-green-400 p-2 rounded-md">
+            Income: <span className="text-slate-800">1000</span>
           </span>
-          <span className="mr-3 text-sm text-slate-400">
-            Essentials: <span className="text-slate-600">1000</span>
+          <span className="mr-3 text-sm text-white bg-amber-400 p-2 rounded-md">
+            Essentials: <span className="text-slate-800">1000</span>
           </span>
-          <span className="mr-3 text-sm text-slate-400">
-            Investments: <span className="text-slate-600">1000</span>
+          <span className="mr-3 text-sm text-white bg-purple-400 p-2 rounded-md">
+            Investments: <span className="text-slate-800">1000</span>
           </span>
-          <span className="text-sm text-slate-400">
-            Expenses: <span className="text-slate-600">1000</span>
+          <span className="mr-3 text-sm text-white bg-orange-400 p-2 rounded-md">
+            Expenses: <span className="text-slate-800">1000</span>
           </span>
+          <select
+            className="text-sm p-2 rounded-md border"
+            value={currentMonth}
+            onChange={handleMonthChange}
+          >
+            {months.map((month, index) => (
+              <option key={index.toString()} value={index} className="py-2">
+                {month}
+              </option>
+            ))}
+          </select>
         </div>
-        <select className="text-sm" value={currentMonth} onChange={handleMonthChange}>
-          {months.map((month, index) => (
-            <option key={index.toString()} value={index}>
-              {month}
-            </option>
-          ))}
-        </select>
       </div>
       <table className="border-separate border-spacing-2 w-full">
         <thead>
@@ -139,6 +125,11 @@ export default function Transactions() {
           ))}
         </tbody>
       </table>
+      {!loading && filteredTransactions.length === 0 && (
+        <div className="text-center text-sm text-slate-400 py-5">
+          <p>We couldn't find any transactions for this month. Try adding a few.</p>
+        </div>
+      )}
     </div>
   );
 }
