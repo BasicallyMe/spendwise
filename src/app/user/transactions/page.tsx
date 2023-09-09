@@ -1,11 +1,11 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import Image from "next/image";
+import Link from "next/link";
 import { PenSquare, Trash2 } from "lucide-react";
 import { useTransactionContext } from "context/TransactionContext";
 import { getMonthString, months } from "utils/helper";
-import { getMonth } from "date-fns";
+import { getMonth, parseISO } from "date-fns";
 import { useStore } from "utils/store";
 import LoadingSkeleton from "./loadingSkeleton";
 
@@ -30,7 +30,7 @@ export default function Transactions() {
     const filtered = transactions.filter((transaction) => {
       return transaction.month === currentMonth; // Assuming 'month' is a property in your transaction data
     });
-    setFilteredTransactions(filtered);
+    setFilteredTransactions(quickSortByDate(filtered));
   }, [transactions, currentMonth]);
 
   useEffect(() => {
@@ -62,6 +62,28 @@ export default function Transactions() {
     setCurrentMonth(selectedMonthIndex); // Update currentMonth locally
   };
 
+  function quickSortByDate(arr) {
+    if (arr.length <= 1) {
+      return arr; // Base case: already sorted
+    }
+
+    const pivotIndex = Math.floor(arr.length / 2);
+    const pivot = arr[pivotIndex];
+    const left = [];
+    const right = [];
+
+    for (let i = 0; i < arr.length; i++) {
+      if (i === pivotIndex) continue; // Skip the pivot element
+      if (new Date(arr[i].date) > new Date(pivot.date)) {
+        left.push(arr[i]);
+      } else {
+        right.push(arr[i]);
+      }
+    }
+
+    return [...quickSortByDate(left), pivot, ...quickSortByDate(right)];
+  }
+
   if (loading) {
     return <LoadingSkeleton />;
   }
@@ -69,27 +91,23 @@ export default function Transactions() {
   return (
     <div className="w-full h-full relative">
       <div className="my-5">
-        <h2 className="text-sm font-normal text-slate-500 mb-2">Your summary</h2>
+        <h2 className="text-sm font-normal text-slate-500 mb-2">
+          Your expenses summary
+        </h2>
         <div className="flex flex-row flex-wrap gap-1">
-          <span className="mr-3 text-sm p-2 rounded-md text-white bg-blue-400">
-            Month:{" "}
-            <span className="text-slate-800">
-              {getMonthString(currentMonth)}
-            </span>
-          </span>
-          <span className="mr-3 text-sm text-white bg-green-400 p-2 rounded-md">
+          <span className="mr-3 text-sm text-green-700 bg-green-100 p-2 rounded-md">
             Income:{" "}
             <span className="text-slate-800">{expenseSummary.income}</span>
           </span>
-          <span className="mr-3 text-sm text-white bg-amber-400 p-2 rounded-md">
+          <span className="mr-3 text-sm text-amber-700 bg-amber-100 p-2 rounded-md">
             Essentials:{" "}
             <span className="text-slate-800">{expenseSummary.essentials}</span>
           </span>
-          <span className="mr-3 text-sm text-white bg-purple-400 p-2 rounded-md">
+          <span className="mr-3 text-sm text-purple-700 bg-purple-100 p-2 rounded-md">
             Investments:{" "}
             <span className="text-slate-800">{expenseSummary.investments}</span>
           </span>
-          <span className="text-sm text-white bg-orange-400 p-2 rounded-md">
+          <span className="text-sm text-orange-600 bg-orange-100 p-2 rounded-md">
             Personal:{" "}
             <span className="text-slate-800">{expenseSummary.personal}</span>
           </span>
@@ -99,17 +117,25 @@ export default function Transactions() {
         <h2 className="text-sm font-normal text-slate-500">
           Your transactions for {getMonthString(currentMonth)}
         </h2>
-        <select
-          className="text-sm p-2 rounded-md border"
-          value={currentMonth}
-          onChange={handleMonthChange}
-        >
-          {months.map((month, index) => (
-            <option key={index.toString()} value={index} className="py-2">
-              {month}
-            </option>
-          ))}
-        </select>
+        <div>
+          <select
+            className="text-sm p-2 rounded-md mr-2 border"
+            value={currentMonth}
+            onChange={handleMonthChange}
+          >
+            {months.map((month, index) => (
+              <option key={index.toString()} value={index} className="py-2">
+                {month}
+              </option>
+            ))}
+          </select>
+          <Link
+            href="/user/add-transaction"
+            className="text-sm bg-blue-500 text-white py-2 px-4 rounded-md"
+          >
+            Add transaction
+          </Link>
+        </div>
       </div>
       <table className="border-separate border-spacing-2 w-full">
         <thead>

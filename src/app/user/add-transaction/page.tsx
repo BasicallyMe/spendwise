@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { addNewTransaction } from "backend/firestore";
 import { useRouter } from "next/navigation";
+import { parseISO } from "date-fns";
 
 type Inputs = {
   type: string;
@@ -37,9 +38,17 @@ export default function AddTransaction() {
     handleSubmit,
     watch,
     formState: { errors },
-  } = useForm<Inputs>();
+  } = useForm<Inputs>({
+    defaultValues: {
+      type: "",
+      category: "",
+      amount: 0,
+      date: "",
+    },
+  });
   const watchType = watch("type", "");
   const [selectedCategory, setSelectedCategory] = useState([]);
+  const [disableSubmit, setDisableSubmit] = useState(false);
   const router = useRouter();
 
   useEffect(() => {
@@ -49,8 +58,11 @@ export default function AddTransaction() {
   }, [watchType]);
 
   const onSubmit: SubmitHandler<Inputs> = async (data) => {
+    setDisableSubmit(true);
     const response = await addNewTransaction(data);
-    // console.log('👀response', response);
+    if (response !== null) {
+      setDisableSubmit(false)
+    }
   };
   return (
     <div className="h-full">
@@ -61,7 +73,6 @@ export default function AddTransaction() {
         <select
           id="type"
           name="type"
-          defaultValue=""
           {...register("type", { required: true })}
           className="border px-2 py-3 rounded-md text-sm"
         >
@@ -94,10 +105,9 @@ export default function AddTransaction() {
         <select
           id="category"
           name="category"
-          {...register("category", { required: true })}
+          {...register("category", { required: watchType !== "income" })}
           className="border px-2 py-3 rounded-md text-sm mt-2"
-          defaultValue=""
-          disabled={watchType === "" || watchType === 'income'}
+          disabled={watchType === "" || watchType === "income"}
         >
           <option value="" selected disabled>
             Choose a category
@@ -136,7 +146,10 @@ export default function AddTransaction() {
 
         <input
           type="submit"
-          className="text-sm py-2 px-3 mt-3 text-white bg-blue-600 rounded-md cursor-pointer"
+          disabled={disableSubmit}
+          className={`text-sm py-2 px-3 mt-3 text-white ${
+            disableSubmit ? "bg-slate-400" : "bg-blue-600"
+          } rounded-md cursor-pointer`}
         />
         <button
           onClick={() => router.back()}
