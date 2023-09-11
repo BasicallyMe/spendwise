@@ -7,6 +7,9 @@ module.exports = {
     extend: {
       transitionProperty: {
         'height': 'height'
+      },
+      margin: {
+        twenty: '20%'
       }
     },
   },

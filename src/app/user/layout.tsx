@@ -20,7 +20,7 @@ export default function AuthLayout({
   return (
     <main className="flex flex-row h-full">
       <NavSideBar />
-      <div className="w-full">
+      <div className="w-4/5 ml-twenty px-3">
         <TransactionContextProvider user={user}>
           {children}
         </TransactionContextProvider>

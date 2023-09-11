@@ -113,7 +113,7 @@ export default function Transactions() {
           </span>
         </div>
       </div>
-      <div className="pl-2 pr-3 flex flex-row items-center justify-between">
+      <div className="flex flex-row items-center justify-between">
         <h2 className="text-sm font-normal text-slate-500">
           Your transactions for {getMonthString(currentMonth)}
         </h2>
@@ -131,7 +131,7 @@ export default function Transactions() {
           </select>
           <Link
             href="/user/add-transaction"
-            className="text-sm bg-blue-500 text-white py-2 px-4 rounded-md"
+            className="text-sm bg-green-500 text-white py-2 px-4 rounded-md"
           >
             Add transaction
           </Link>
