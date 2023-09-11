@@ -3,8 +3,12 @@
 import { useEffect, useState } from "react";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { addNewTransaction } from "backend/firestore";
+import { CheckCircle2, AlertCircle } from "lucide-react";
 import { useRouter } from "next/navigation";
-import { parseISO } from "date-fns";
+import { format } from "date-fns";
+import LoadingCircle from "../../../../public/icons/loadingcircle";
+
+const today = new Date();
 
 type Inputs = {
   type: string;
@@ -40,15 +44,20 @@ export default function AddTransaction() {
     formState: { errors },
   } = useForm<Inputs>({
     defaultValues: {
-      type: "",
+      type: "income",
       category: "",
       amount: 0,
-      date: "",
+      date: format(today, "yyyy-MM-dd"),
     },
   });
-  const watchType = watch("type", "");
+
+  const watchType = watch("type");
+  const watchAmount = watch("amount");
+  const watchCategory = watch("category");
+  const watchDate = watch("date");
   const [selectedCategory, setSelectedCategory] = useState([]);
   const [disableSubmit, setDisableSubmit] = useState(false);
+  const [response, setResponse] = useState({ status: undefined, message: "" });
   const router = useRouter();
 
   useEffect(() => {
@@ -59,13 +68,78 @@ export default function AddTransaction() {
 
   const onSubmit: SubmitHandler<Inputs> = async (data) => {
     setDisableSubmit(true);
-    const response = await addNewTransaction(data);
-    if (response !== null) {
-      setDisableSubmit(false)
-    }
+    const res = await addNewTransaction(data);
+    setResponse(res);
+    setTimeout(() => {
+      setDisableSubmit(false);
+      setResponse({ status: undefined, message: '' });
+    }, 2000);
   };
   return (
-    <div className="h-full">
+    <div className="h-full flex flex-col items-center justify-center">
+      <div
+        className={`${response?.status === 'error' ? 'bg-orange-500' : 'bg-green-500'} w-1/4 ${
+          disableSubmit ? "h-10" : "h-32"
+        } transition-height flex flex-col justify-center ${
+          disableSubmit ? "items-center" : ""
+        } px-4 rounded-lg my-4`}
+      >
+        {disableSubmit ? (
+          response.status === undefined ? (
+            <>
+              <svg
+                className="animate-spin -ml-1 mr-3 h-6 w-6 text-white"
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+              >
+                <circle
+                  className="opacity-25"
+                  cx="12"
+                  cy="12"
+                  r="10"
+                  stroke="currentColor"
+                  stroke-width="4"
+                ></circle>
+                <path
+                  className="opacity-75"
+                  fill="currentColor"
+                  d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                ></path>
+              </svg>
+            </>
+          ) : (
+            <div className="flex flex-row text-sm text-white items-center">
+              {response?.status === "success" ? (
+                <CheckCircle2 size={20} strokeWidth={1.25} />
+              ) : (
+                <AlertCircle size={20} strokeWidth={1.25} />
+              )}
+              <span className="ml-2">{response?.message}</span>
+            </div>
+          )
+        ) : (
+          <>
+            <span className="text-sm text-green-200 capitalize">
+              {watchType}
+            </span>
+            <div className="flex flex-row flex-wrap items-end py-2">
+              <span className="text-4xl font-semibold text-white mr-1">
+                {watchAmount}
+              </span>
+              <span className="text-xs mb-1 text-white">
+                {watchCategory !== "" && `on `}
+                <span>{watchCategory}</span>
+              </span>
+            </div>
+            <div>
+              <span className="text-xs text-slate-900">
+                {format(new Date(watchDate), "eee, MMMM dd")}
+              </span>
+            </div>
+          </>
+        )}
+      </div>
       <form
         onSubmit={handleSubmit(onSubmit)}
         className="flex flex-col w-1/4 py-2"
@@ -118,8 +192,6 @@ export default function AddTransaction() {
             </option>
           ))}
         </select>
-        {/* {watchType !== "" && watchType !== "income" && (
-        )} */}
         {errors.category && (
           <span className="text-xs text-red-500 my-1 font-medium">
             This field is required
@@ -148,12 +220,12 @@ export default function AddTransaction() {
           type="submit"
           disabled={disableSubmit}
           className={`text-sm py-2 px-3 mt-3 text-white ${
-            disableSubmit ? "bg-slate-400" : "bg-blue-600"
+            disableSubmit ? "bg-slate-400" : "bg-green-500"
           } rounded-md cursor-pointer`}
         />
         <button
           onClick={() => router.back()}
-          className="text-sm py-2 px-3 mt-3 text-blue-600 border border-blue-600 rounded-md cursor-pointer"
+          className="text-sm py-2 px-3 mt-3 text-green-500 border border-green-500 rounded-md cursor-pointer"
         >
           Cancel
         </button>

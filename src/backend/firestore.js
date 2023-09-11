@@ -23,10 +23,10 @@ export async function addNewTransaction(data) {
     const month = getMonth(parsedDate);
     data = {...data, year, month};
     await addDoc(collection(db, `users/${uid}/transactions`), data);
-    return true;
+    return { status: 'success', message: 'Added successfully' };
   } catch (error) {
     console.log(error);
-    return false;
+    return { status: 'error', message: 'Please try again' }
   }
 }
 
