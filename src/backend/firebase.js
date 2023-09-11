@@ -3,7 +3,7 @@ import { getAuth } from 'firebase/auth';
 import { getFirestore } from 'firebase/firestore';
 
 const firebaseConfig = {
-  apiKey: "AIzaSyBUIBMlG6XyQKHkKQ_3LQpTpBBjQvAhKXM",
+  apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY,
   authDomain: "whatsmyexpense.firebaseapp.com",
   projectId: "whatsmyexpense",
   storageBucket: "whatsmyexpense.appspot.com",

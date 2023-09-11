@@ -6,7 +6,6 @@ import { addNewTransaction } from "backend/firestore";
 import { CheckCircle2, AlertCircle } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { format } from "date-fns";
-import LoadingCircle from "../../../../public/icons/loadingcircle";
 
 const today = new Date();
 
