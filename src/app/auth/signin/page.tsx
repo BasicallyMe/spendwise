@@ -25,7 +25,6 @@ export default function SignIn() {
       password: event.target.password.value,
     };
     const response = await signInWithEmail(data);
-    console.log(response);
     if (response.status === "success") {
       if (response.verified) {
         router.push("/user/dashboard");
@@ -34,9 +33,26 @@ export default function SignIn() {
         setShowError(true);
       }
     } else {
-      setErrorMessage(response.message)
+      setErrorMessage(response.message);
       setShowError(true);
     }
+    if (response.status !== "success") {
+      setErrorMessage(response.message);
+      setShowError(true);
+      setDisableBtn(false);
+      return setTimeout(() => {
+        setShowError(false);
+      }, 3000);
+    }
+    if (!response.verified) {
+      setErrorMessage("Please verify your email to sign in to your account");
+      setShowError(true);
+      setDisableBtn(false);
+      return setTimeout(() => {
+        setShowError(false);
+      }, 3000);
+    }
+    router.push("/user/dashboard");
     setDisableBtn(false);
   };
 
@@ -47,18 +63,10 @@ export default function SignIn() {
         <p className="text-sm text-slate-400">
           Sign in using one of the providers below
         </p>
-        <div className="text-sm py-4 flex flex-row">
-          <button className="px-2 py-3 rounded border border-slate-200 bg-white grow mr-2 text-center flex flex-row justify-center">
+        <div className="text-sm py-4 flex flex-col">
+          <button className="px-2 py-2 rounded-md border border-slate-200 bg-white hover:bg-slate-100 transition-colors duration-300 grow text-center flex flex-row justify-center">
             <Icon icon="Google" />
-            <span className="pl-2">Google</span>
-          </button>
-          <button className="px-2 py-3 rounded border border-slate-200 bg-white grow mr-2 text-center flex flex-row justify-center">
-            <Icon icon="Twitter" />
-            <span className="pl-2">Twitter</span>
-          </button>
-          <button className="px-2 py-3 rounded border border-slate-200 bg-white grow text-center flex flex-row justify-center">
-            <Icon icon="Microsoft" />
-            <span className="pl-2">Microsoft</span>
+            <span className="pl-2">Sign in with Google</span>
           </button>
         </div>
       </div>
@@ -69,7 +77,7 @@ export default function SignIn() {
       </div>
       <div className="">
         {showError && (
-          <div className="flex flex-row items-center py-2 px-2 rounded-sm my-4 bg-orange-400 text-white">
+          <div className="flex flex-row items-center py-2 px-2 rounded my-4 bg-red-500 text-white">
             <AlertCircle size={20} />
             <p className="text-sm ml-2">{errorMessage}</p>
           </div>
@@ -106,20 +114,41 @@ export default function SignIn() {
           <button
             type="submit"
             disabled={disableBtn}
-            className={`${
-              disableBtn ? "bg-slate-400" : "bg-blue-500"
-            } text-white text-sm w-full py-2 rounded my-6 ${
-              !disableBtn && "hover:bg-blue-600"
-            }`}
+            className="text-white text-sm w-full transition-colors py-2 rounded my-6 bg-green-500 hover:bg-green-600 flex flex-row justify-center"
           >
-            Sign In
+            {disableBtn ? (
+              <>
+                <svg
+                  className="animate-spin -ml-1 mr-3 h-5 w-5 text-white"
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                >
+                  <circle
+                    className="opacity-25"
+                    cx="12"
+                    cy="12"
+                    r="10"
+                    stroke="currentColor"
+                    stroke-width="4"
+                  ></circle>
+                  <path
+                    className="opacity-75"
+                    fill="currentColor"
+                    d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                  ></path>
+                </svg>
+              </>
+            ) : (
+              "Sign in"
+            )}
           </button>
         </form>
         <p className="text-sm font-normal">
-          Already have an account?{" "}
+          Don't have an account?{" "}
           <Link
             href="/auth/signup"
-            className="text-blue-500 hover:text-blue-600 font-medium"
+            className="text-blue-500 hover:text-green-600 font-medium"
           >
             Sign up
           </Link>

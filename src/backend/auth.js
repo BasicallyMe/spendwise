@@ -79,7 +79,7 @@ export async function newUser(userObj) {
     switch (error.code) {
       case "auth/email-already-in-use":
         message =
-          "This email might already be used by another account. Please use a different email";
+          "This email might already be in use by another account";
         break;
       default:
         message = "We couldn't sign you in. Please try again";
