@@ -1,6 +1,4 @@
 import React, {useEffect} from 'react';
-import AuthLayout from './auth/layout';
-import UserLayout from './user/layout';
 import { useAuthContext } from 'context/AuthContext';
 import { useRouter } from 'next/navigation';
 
