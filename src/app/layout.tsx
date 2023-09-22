@@ -22,9 +22,6 @@ export default function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
-  React.useEffect(() => {
-    console.log('calling here');
-  }, [])
   return (
     <html lang="en">
       <body className="h-screen">
