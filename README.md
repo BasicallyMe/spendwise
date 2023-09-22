@@ -1,10 +1,12 @@
-# Expense Tracker App
+[![Version](https://img.shields.io/badge/version-1.0.0-blue.svg)](https://github.com/BasicallyMe/spendwise)
+
+# SpendWise
 
 Track your expenses with ease using the Expense Tracker App. This app helps you manage your finances by providing a simple and intuitive interface to record and categorize your expenses.
 
 ## Table of Contents
 
-- [Expense Tracker App](#expense-tracker-app)
+- [SpendWise](#spendwise)
   - [Table of Contents](#table-of-contents)
   - [About](#about)
   - [Tools Used](#tools-used)
@@ -36,7 +38,7 @@ The following technologies were used in the development of this app:
 
 - **Date and Time Stamps:** Each expense entry is timestamped, helping you keep track of when each expense was incurred.
 
-- **Search and Filtering:** Easily search and filter through your expenses based on date, category, or amount.
+- **Search and Filtering <span style="font-size: 10px; padding: 2px 4px; border-radius: 100px; background-color: white; color: black; margin-left: 4px; margin-right: 4px;">Upcoming</span>:** Easily search and filter through your expenses based on date, category, or amount.
 
 - **Charts and Analytics <span style="font-size: 10px; padding: 2px 4px; border-radius: 100px; background-color: white; color: black; margin-left: 4px; margin-right: 4px;">Upcoming</span>:** Visualize your spending habits with interactive charts and graphs, enabling you to identify trends and areas where you can save money.
 
