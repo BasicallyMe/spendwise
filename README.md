@@ -21,14 +21,14 @@ The Expense Tracker App is designed to simplify your financial management tasks.
 
 The following technologies were used in the development of this app:
 
-- Framework: Next.js
-- Programming Language: TypeScript
-- Styling: Tailwind CSS
-- State Management: Zustand
-- Backend: Firebase
-- Authentication: Firebase Auth
-- Database: Firebase Firestore
-- Deployment: CloudFlare
+- **Framework:** Next.js
+- **Programming Language:** TypeScript
+- **Styling:** Tailwind CSS
+- **State Management:** Zustand
+- **Backend:** Firebase
+- **Authentication:** Firebase Auth
+- **Database:** Firebase Firestore
+- **Deployment:** CloudFlare
 
 ## Features
 
@@ -38,9 +38,9 @@ The following technologies were used in the development of this app:
 
 - **Date and Time Stamps:** Each expense entry is timestamped, helping you keep track of when each expense was incurred.
 
-- **Search and Filtering <span style="font-size: 10px; padding: 2px 4px; border-radius: 100px; background-color: white; color: black; margin-left: 4px; margin-right: 4px;">Upcoming</span>:** Easily search and filter through your expenses based on date, category, or amount.
+- **Search and Filtering `Upcoming`:** Easily search and filter through your expenses based on date, category, or amount.
 
-- **Charts and Analytics <span style="font-size: 10px; padding: 2px 4px; border-radius: 100px; background-color: white; color: black; margin-left: 4px; margin-right: 4px;">Upcoming</span>:** Visualize your spending habits with interactive charts and graphs, enabling you to identify trends and areas where you can save money.
+- **Charts and Analytics `Upcoming`:** Visualize your spending habits with interactive charts and graphs, enabling you to identify trends and areas where you can save money.
 
 - **Secure Authentication:** User data is secured using Firebase Authentication, ensuring your financial information remains confidential.
 
