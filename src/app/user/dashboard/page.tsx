@@ -14,7 +14,7 @@ export default function Dashboard() {
       </div> */}
       <div className="w-full my-3 py-3 px-2">
         <div className="">
-          <h2 className="text-2xl font-semibold">Hello, {user.displayName.split(" ")[0]}</h2>
+          <h2 className="text-2xl font-semibold">Hello, {user?.displayName.split(" ")[0]}</h2>
           <span className="text-sm text-green-500">We're still designing the perfect dashboard for you...</span>
         </div>
       </div>
