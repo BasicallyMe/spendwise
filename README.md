@@ -11,6 +11,7 @@ Track your expenses with ease using the Expense Tracker App. This app helps you 
   - [About](#about)
   - [Tools Used](#tools-used)
   - [Features](#features)
+  - [Upcoming Features](#upcoming-features)
   - [Credits](#credits)
 
 ## About
@@ -38,11 +39,13 @@ The following technologies were used in the development of this app:
 
 - **Date and Time Stamps:** Each expense entry is timestamped, helping you keep track of when each expense was incurred.
 
-- **Search and Filtering `Upcoming`:** Easily search and filter through your expenses based on date, category, or amount.
-
-- **Charts and Analytics `Upcoming`:** Visualize your spending habits with interactive charts and graphs, enabling you to identify trends and areas where you can save money.
-
 - **Secure Authentication:** User data is secured using Firebase Authentication, ensuring your financial information remains confidential.
+
+## Upcoming Features
+- **Search and Filtering:** Easily search and filter through your expenses based on date, category, or amount.
+
+- **Charts and Analytics:** Visualize your spending habits with interactive charts and graphs, enabling you to identify trends and areas where you can save money, in a personalised Dashboard.
+- **Sign up with Google:** Seamlessly create an account using your Google credentials for a hassle-free registration experience.
 
 ## Credits
 
