@@ -1,9 +1,8 @@
 import { auth, db } from "./firebase";
-import format from 'date-fns/format';
 import getYear from 'date-fns/getYear';
 import getMonth from "date-fns/getMonth";
 import parseISO from "date-fns/parseISO";
-import { addDoc, collection, doc, getDocs, setDoc } from "firebase/firestore";
+import { addDoc, collection, doc, deleteDoc, getDocs, setDoc } from "firebase/firestore";
 
 export async function createUserDatabase(user) {
   try {
@@ -39,5 +38,14 @@ export async function getAllTransactions() {
     return { data, status: 'success' };
   } catch (error) {
     return ({ status: 'error' });
+  }
+}
+
+export async function deleteTransactionWithID(id) {
+  const uid = auth.currentUser.uid;
+  try {
+    await deleteDoc(doc(db, `users/${uid}/transactions`, id))
+  } catch (error) {
+    console.log(error)
   }
 }

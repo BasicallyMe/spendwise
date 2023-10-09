@@ -10,6 +10,7 @@ import {
 import { User } from 'firebase/auth'
 
 interface Transaction {
+  id: string,
   amount: string;
   category: string;
   date: string;
@@ -44,7 +45,9 @@ export function TransactionContextProvider({ children, user }) {
       const unsubscribe = onSnapshot(q, (snapshot: QuerySnapshot<DocumentData>) => {
         let updatedTransactions = [];
         snapshot.forEach((doc) => {
-          updatedTransactions.push(doc.data());
+          const data = doc.data();
+          data.id = doc.id;
+          updatedTransactions.push(data);
         });
         setTransactions(updatedTransactions);
       });

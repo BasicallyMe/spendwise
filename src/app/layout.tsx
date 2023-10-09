@@ -17,6 +17,8 @@ export default function RootLayout({
     <html lang="en">
       <head>
         <title>SpendWise</title>
+        <link rel="icon" href="/public/favicon.ico" />
+        <link rel="manifest" href="/site.webmanifest"></link>
         <meta
           name="description"
           content="Track your expenses effortlessly with SpendWise, a powerful expense management platform. Gain insights into your spending habits, categorize expenses, and take control of your finances today."

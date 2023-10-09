@@ -5,9 +5,9 @@ import Link from "next/link";
 import { PenSquare, Trash2 } from "lucide-react";
 import { useTransactionContext } from "context/TransactionContext";
 import { getMonthString, months } from "utils/helper";
-import { getMonth, parseISO } from "date-fns";
 import { useStore } from "utils/store";
 import LoadingSkeleton from "./loadingSkeleton";
+import { deleteTransactionWithID } from 'backend/firestore'
 
 export default function Transactions() {
   const { transactions } = useTransactionContext();
@@ -61,6 +61,10 @@ export default function Transactions() {
     const selectedMonthIndex = parseInt(event.target.value, 10);
     setCurrentMonth(selectedMonthIndex); // Update currentMonth locally
   };
+
+  const deleteTransaction = async (id) => {
+    deleteTransactionWithID(id);
+  }
 
   function quickSortByDate(arr) {
     if (arr.length <= 1) {
@@ -185,8 +189,12 @@ export default function Transactions() {
                 {item.amount}
               </td>
               <td className="flex flex-row py-3">
-                <PenSquare size={15} className="mr-2" />
-                <Trash2 size={15} />
+                {/* <button>
+                  <PenSquare size={20} className="mr-2" />
+                </button> */}
+                <button className="p-1 text-red-500" onClick={() => deleteTransaction(item.id)}>
+                  <Trash2 size={20} strokeWidth={1.4} />
+                </button>
               </td>
             </tr>
           ))}

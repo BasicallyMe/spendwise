@@ -1,6 +1,7 @@
 import React, { useEffect } from "react";
 import { onAuthStateChanged, User } from "firebase/auth";
 import { auth } from "../backend/firebase";
+import Loading from "components/loading";
 
 interface AuthContextType {
   user: User | null;
@@ -26,7 +27,6 @@ export const AuthContextProvider: React.FC<AuthContextProviderProps> = ({
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (authUser) => {
       if (authUser) {
-        console.log(authUser);
         setUser(authUser);
       } else {
         setUser(null);
@@ -39,7 +39,7 @@ export const AuthContextProvider: React.FC<AuthContextProviderProps> = ({
 
   return (
     <AuthContext.Provider value={{ user }}>
-      {loading ? <div>Loading...</div> : children}
+      {loading ? <Loading /> : children}
     </AuthContext.Provider>
   );
 };

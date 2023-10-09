@@ -45,7 +45,7 @@ export default function AddTransaction() {
     defaultValues: {
       type: "income",
       category: "",
-      amount: 0,
+      amount: null,
       date: format(today, "yyyy-MM-dd"),
     },
   });
@@ -124,7 +124,7 @@ export default function AddTransaction() {
             </span>
             <div className="flex flex-row flex-wrap items-end py-2">
               <span className="text-4xl font-semibold text-white mr-1">
-                {watchAmount}
+                {watchAmount ? watchAmount : 0}
               </span>
               <span className="text-xs mb-1 text-white">
                 {watchCategory !== "" && `on `}
@@ -215,15 +215,15 @@ export default function AddTransaction() {
           className="border px-2 py-3 rounded-md text-sm mt-2"
         />
 
-        <input
+        <button
           type="submit"
           disabled={disableSubmit}
           className={`text-sm py-2 px-3 mt-3 text-white ${
             disableSubmit ? "bg-slate-400" : "bg-green-500"
           } rounded-md cursor-pointer`}
-        />
+        >Add</button>
         <button
-          onClick={() => router.back()}
+          onClick={() => {console.log(); return router.back()}}
           className="text-sm py-2 px-3 mt-3 text-green-500 border border-green-500 rounded-md cursor-pointer"
         >
           Cancel
