@@ -5,8 +5,8 @@ import gsap, { Power2 } from "gsap";
 import Icon from "../../public/icons/icons";
 
 export default function Loading() {
-  const fullLogoRef = useRef();
-  const shortLogoRef = useRef();
+  const fullLogoRef = useRef<HTMLDivElement>();
+  const shortLogoRef = useRef<HTMLDivElement>();
   const tl = gsap.timeline({ yoyo: true, repeat: -1 });
 
   function startAnimation() {
